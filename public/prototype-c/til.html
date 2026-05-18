@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>TIL — Dev Journal</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="canonical" href="https://til.soumendra.net/til/" />
+<meta property="og:type" content="article" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<script>(function(){try{var t=localStorage.getItem('til-theme-c');if(t!=='light')document.documentElement.classList.add('dark');}catch(e){document.documentElement.classList.add('dark');}})();</script>
+<style>
+  :root{--bg:#fbfaf7;--surface:#fff;--fg:#1a1625;--fg-dim:#6b6478;--border:#ece8e1;--accent:#ff7a45;--accent-2:#7c5cff;--tag-bg:#f4f0ea;--tag-fg:#3a2e4a}
+  html.dark{--bg:#0f0d18;--surface:#171425;--fg:#f0ecf7;--fg-dim:#9590a8;--border:#231f33;--accent:#ff8a5a;--accent-2:#9d83ff;--tag-bg:#1e1a2e;--tag-fg:#c8c0db}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--fg);font-family:'Space Grotesk',system-ui,sans-serif;font-size:16px;line-height:1.7}
+  a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+  header{padding:18px 36px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:color-mix(in oklab,var(--bg) 90%,transparent);backdrop-filter:blur(10px);z-index:5}
+  .brand{font-weight:700;color:var(--fg)}.brand .dot{color:var(--accent)}.brand:hover{text-decoration:none}
+  .header-right{display:flex;gap:8px}
+  .btn{padding:8px 12px;border:1px solid var(--border);background:transparent;color:var(--fg);border-radius:10px;cursor:pointer;font:inherit;font-size:13px}
+  .btn:hover{border-color:var(--accent)}
+  main{max-width:720px;margin:0 auto;padding:48px 36px 80px}
+  .crumbs{color:var(--fg-dim);font-size:13px;margin-bottom:18px;font-family:'JetBrains Mono',monospace}
+  .crumbs a{color:var(--fg-dim)}.crumbs a:hover{color:var(--accent)}
+  .header-row{display:flex;gap:18px;align-items:flex-start;margin-bottom:14px}
+  .post-icon{flex:0 0 56px;height:56px;border-radius:14px;background:var(--tag-bg);display:flex;align-items:center;justify-content:center;font-size:30px;margin-top:6px}
+  h1{font-size:36px;font-weight:700;letter-spacing:-.02em;line-height:1.15;color:var(--fg);flex:1}
+  .post-meta{color:var(--fg-dim);font-size:14px;font-family:'JetBrains Mono',monospace;margin-bottom:24px}
+  .pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:36px}
+  .pill{font-size:12px;padding:4px 12px;border-radius:999px;background:var(--tag-bg);color:var(--tag-fg);transition:all .15s}
+  .pill:hover{background:var(--accent);color:#fff;text-decoration:none}
+  article{color:var(--fg)}
+  article p{margin:16px 0}
+  article h2{font-size:22px;font-weight:600;margin:36px 0 12px;letter-spacing:-.01em;color:var(--fg)}
+  article ul{margin:14px 0 14px 24px}article li{margin:6px 0}
+  article code{font-family:'JetBrains Mono',monospace;font-size:.86em;background:var(--tag-bg);padding:2px 6px;border-radius:4px;color:var(--accent-2)}
+  article pre{font-family:'JetBrains Mono',monospace;background:var(--surface);border:1px solid var(--border);padding:18px 20px;border-radius:12px;overflow-x:auto;margin:18px 0;font-size:13px;line-height:1.6}
+  article pre code{background:transparent;padding:0;color:var(--fg)}
+  .footer-nav{margin-top:56px;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:14px;gap:16px}
+  .footer-nav a{color:var(--fg-dim)}.footer-nav a:hover{color:var(--accent)}
+</style>
+</head>
+<body>
+  <header>
+    <a class="brand" href="./index.html">dev<span class="dot">.</span>journal</a>
+    <div class="header-right">
+      <button class="btn" id="randomBtn">🎲 Random</button>
+      <button class="btn" id="themeBtn">Toggle theme</button>
+    </div>
+  </header>
+  <main>
+    <div class="crumbs"><a href="./index.html">~/journal</a> / <a href="./topic.html?t=observability" id="bcTopic">observability</a> / <span id="bcSlug"></span></div>
+    <div class="header-row">
+      <div class="post-icon" id="postIcon">📡</div>
+      <h1 id="title"></h1>
+    </div>
+    <p class="post-meta"><span id="date"></span> · <span id="read"></span> min read · by Soumendra</p>
+    <div class="pills" id="pills"></div>
+    <article id="body">
+      <p>I've been wiring SigNoz into our agent runtime this week. Most LLM "observability" demos online treat a single chat call as the unit of work, which doesn't survive contact with a real agent loop — tools nest, retries fan out, and the wall-clock latency you actually care about is the one the human waited for.</p>
+      <h2>The trick</h2>
+      <p>OpenTelemetry's <code>gen_ai.*</code> semantic conventions give you a vocabulary that SigNoz, Arize, and Langfuse all understand out of the box. Wrap the model call in one span and each tool call in a child span; let the SDK propagate context:</p>
+      <pre><code>with tracer.start_as_current_span(
+    "openai.chat",
+    attributes={
+        "gen_ai.system": "openai",
+        "gen_ai.request.model": "gpt-4o-mini",
+        "gen_ai.usage.input_tokens": prompt_tokens,
+    },
+) as span:
+    resp = client.chat.completions.create(...)
+    span.set_attribute(
+        "gen_ai.usage.output_tokens",
+        resp.usage.completion_tokens,
+    )</code></pre>
+      <h2>What you get</h2>
+      <ul>
+        <li>A real waterfall in SigNoz — tool calls render under their parent.</li>
+        <li>Token usage as a first-class metric you can chart per model.</li>
+        <li>Error spans that capture the prompt, not just a 500.</li>
+      </ul>
+      <p>The whole change was ~40 lines. Cheapest observability win I've had this quarter.</p>
+    </article>
+    <div class="footer-nav">
+      <a href="./index.html">← All TILs</a>
+      <a href="https://github.com/soumendrak/til" target="_blank" rel="noreferrer">Edit on GitHub ↗</a>
+    </div>
+  </main>
+<script src="./data.js"></script>
+<script>
+  var TOPIC_EMOJI={python:'🐍',llm:'🤖',observability:'📡',otel:'📡',signoz:'📊',docker:'🐳',kubernetes:'☸',ci:'⚙️','github-actions':'⚙️',typescript:'🧩',rust:'🦀',wasm:'⚡',debug:'🪲',async:'⏱',linux:'🐧',git:'🌿',cli:'⌨'};
+  function emoji(tags){for(var i=0;i<tags.length;i++)if(TOPIC_EMOJI[tags[i]])return TOPIC_EMOJI[tags[i]];return '📝';}
+  document.getElementById('themeBtn').onclick=function(){document.documentElement.classList.toggle('dark');localStorage.setItem('til-theme-c',document.documentElement.classList.contains('dark')?'dark':'light');};
+  document.getElementById('randomBtn').onclick=function(){var t=TILS[Math.floor(Math.random()*TILS.length)];location.href='./til.html?id='+t.slug;};
+  var id=new URLSearchParams(location.search).get('id')||'otel-llm-agents';
+  var t=TILS.find(function(x){return x.slug===id})||TILS[0];
+  document.title=t.title+' — Dev Journal';
+  document.getElementById('title').textContent=t.title;
+  document.getElementById('date').textContent=t.date;
+  document.getElementById('read').textContent=t.read;
+  document.getElementById('postIcon').textContent=emoji(t.tags);
+  document.getElementById('bcSlug').textContent=t.slug;
+  document.getElementById('bcTopic').textContent=t.tags[0];
+  document.getElementById('bcTopic').href='./topic.html?t='+t.tags[0];
+  document.getElementById('pills').innerHTML=t.tags.map(function(x){return '<a class="pill" href="./topic.html?t='+x+'">#'+x+'</a>'}).join('');
+</script>
+</body></html>
