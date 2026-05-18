@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>TIL — Soumendra</title>
+<meta name="description" content="Today I Learned — notes on AI observability, infra, and engineering." />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="canonical" href="https://til.soumendra.net/" />
+<meta property="og:title" content="TIL — Soumendra" />
+<meta property="og:description" content="Today I Learned — notes on AI observability, infra, and engineering." />
+<meta property="og:type" content="website" />
+<link rel="alternate" type="application/atom+xml" title="TIL feed" href="/feed.atom" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script>(function(){try{var t=localStorage.getItem('til-theme-b');if(t==='dark')document.documentElement.classList.add('dark');else if(!t&&matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.classList.add('dark');}catch(e){}})();</script>
+<style>
+  :root{
+    --bg:#ffffff;--surface:#fafafa;--surface-2:#f4f4f5;--fg:#18181b;--fg-dim:#71717a;--fg-soft:#a1a1aa;
+    --border:#e4e4e7;--accent:#2f6fed;--accent-soft:#dbe7ff;
+    --pill-1-bg:#dbeafe;--pill-1-fg:#1e40af;
+    --pill-2-bg:#dcfce7;--pill-2-fg:#166534;
+    --pill-3-bg:#fef3c7;--pill-3-fg:#92400e;
+    --pill-4-bg:#fce7f3;--pill-4-fg:#9f1239;
+    --pill-5-bg:#ede9fe;--pill-5-fg:#5b21b6;
+    --pill-6-bg:#e0f2fe;--pill-6-fg:#0c4a6e;
+  }
+  html.dark{
+    --bg:#0f0f11;--surface:#16161a;--surface-2:#1c1c22;--fg:#f4f4f5;--fg-dim:#a1a1aa;--fg-soft:#71717a;
+    --border:#27272a;--accent:#6b9aff;--accent-soft:#1d3a78;
+    --pill-1-bg:#1e3a8a40;--pill-1-fg:#bfdbfe;
+    --pill-2-bg:#14532d40;--pill-2-fg:#bbf7d0;
+    --pill-3-bg:#78350f40;--pill-3-fg:#fde68a;
+    --pill-4-bg:#831a4540;--pill-4-fg:#fbcfe8;
+    --pill-5-bg:#4c1d9540;--pill-5-fg:#ddd6fe;
+    --pill-6-bg:#0c4a6e40;--pill-6-fg:#bae6fd;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+  aside{border-right:1px solid var(--border);padding:28px 22px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--surface)}
+  aside .brand{font-weight:700;font-size:17px;letter-spacing:-.01em;margin-bottom:4px}
+  aside .by{font-size:12px;color:var(--fg-dim);margin-bottom:28px}
+  aside h4{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--fg-soft);margin:18px 0 8px}
+  aside .topic{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;border-radius:6px;font-size:14px;color:var(--fg);cursor:pointer;margin:1px 0}
+  aside .topic:hover{background:var(--surface-2)}
+  aside .topic .c{font-size:12px;color:var(--fg-dim)}
+  .theme-toggle{margin-top:24px;display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--border);background:transparent;color:var(--fg);border-radius:8px;cursor:pointer;font:inherit;font-size:13px;width:100%}
+  .theme-toggle:hover{background:var(--surface-2)}
+  main{padding:48px 56px;max-width:880px}
+  .hero h1{font-size:32px;letter-spacing:-.02em;font-weight:700;margin-bottom:8px}
+  .hero p{color:var(--fg-dim);font-size:16px;max-width:560px}
+  .toolbar{display:flex;justify-content:space-between;align-items:center;margin:40px 0 16px}
+  .toolbar h2{font-size:13px;font-weight:600;color:var(--fg-soft);text-transform:uppercase;letter-spacing:.08em}
+  .toolbar .feed{font-size:13px;color:var(--fg-dim)}
+  .toolbar .feed:hover{color:var(--accent)}
+  .card{display:block;padding:20px 22px;border:1px solid var(--border);border-radius:12px;background:var(--surface);margin-bottom:12px;transition:all .15s ease}
+  .card:hover{border-color:var(--fg-soft);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.04)}
+  html.dark .card:hover{box-shadow:0 4px 12px rgba(0,0,0,.3)}
+  .card .meta{font-size:12px;color:var(--fg-dim);margin-bottom:6px}
+  .card .meta .dot{margin:0 6px;opacity:.5}
+  .card h3{font-size:17px;font-weight:600;letter-spacing:-.01em;margin-bottom:6px}
+  .card .preview{color:var(--fg-dim);font-size:14px;margin-bottom:10px}
+  .pills{display:flex;flex-wrap:wrap;gap:6px}
+  .pill{font-size:11px;padding:3px 10px;border-radius:999px;font-weight:500}
+  @media(max-width:880px){.app{grid-template-columns:1fr}aside{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}main{padding:32px 24px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="brand">til.soumendra.net</div>
+    <div class="by">notes by Soumendra · AI observability @ PepsiCo</div>
+    <h4>Topics</h4>
+    <div id="topics"></div>
+    <button class="theme-toggle" id="themeBtn">
+      <span id="themeIcon">◐</span> <span id="themeLabel">Toggle theme</span>
+    </button>
+    <h4 style="margin-top:32px">Elsewhere</h4>
+    <a class="topic" href="https://github.com/soumendrak/til" target="_blank" rel="noreferrer">GitHub <span class="c">↗</span></a>
+    <a class="topic" href="/feed.atom">RSS feed <span class="c">↗</span></a>
+  </aside>
+  <main>
+    <section class="hero">
+      <h1>Today I Learned</h1>
+      <p>Short, dated notes — observability for AI systems, plus the infra and tools I use to ship them.</p>
+    </section>
+    <div class="toolbar">
+      <h2>Recent</h2>
+      <a class="feed" href="/feed.atom">Subscribe via RSS →</a>
+    </div>
+    <div id="list"></div>
+  </main>
+</div>
+<script src="./data.js"></script>
+<script>
+  var btn = document.getElementById('themeBtn');
+  function syncIcon(){var d=document.documentElement.classList.contains('dark');document.getElementById('themeIcon').textContent=d?'☾':'☀';document.getElementById('themeLabel').textContent=d?'Dark':'Light';}
+  syncIcon();
+  btn.onclick=function(){document.documentElement.classList.toggle('dark');localStorage.setItem('til-theme-b',document.documentElement.classList.contains('dark')?'dark':'light');syncIcon();};
+  var counts={};TILS.forEach(function(t){t.tags.forEach(function(x){counts[x]=(counts[x]||0)+1});});
+  var topicsEl=document.getElementById('topics');
+  Object.keys(counts).sort(function(a,b){return counts[b]-counts[a]}).forEach(function(tag){
+    var a=document.createElement('a');a.className='topic';a.href='./topic.html?t='+encodeURIComponent(tag);
+    a.innerHTML='<span># '+tag+'</span><span class="c">'+counts[tag]+'</span>';topicsEl.appendChild(a);
+  });
+  function pillClass(tag){var h=0;for(var i=0;i<tag.length;i++)h=(h*31+tag.charCodeAt(i))>>>0;return 'pill-'+(h%6+1);}
+  var listEl=document.getElementById('list');
+  TILS.forEach(function(t){
+    var a=document.createElement('a');a.className='card';a.href='./til.html?id='+t.slug;
+    a.innerHTML='<div class="meta">'+t.date+'<span class="dot">·</span>'+t.read+' min read</div>'+
+      '<h3>'+t.title+'</h3>'+
+      '<p class="preview">'+t.preview+'</p>'+
+      '<div class="pills">'+t.tags.map(function(x){var c=pillClass(x);return '<span class="pill" style="background:var(--'+c+'-bg);color:var(--'+c+'-fg)">'+x+'</span>'}).join('')+'</div>';
+    listEl.appendChild(a);
+  });
+</script>
+</body></html>
