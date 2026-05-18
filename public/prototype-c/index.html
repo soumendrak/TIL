@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Dev Journal — TIL</title>
+<meta name="description" content="A searchable journal of things learned — AI observability, infra, tools." />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="canonical" href="https://til.soumendra.net/" />
+<meta property="og:title" content="Dev Journal — TIL" />
+<meta property="og:type" content="website" />
+<link rel="alternate" type="application/atom+xml" title="TIL feed" href="/feed.atom" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<script>(function(){try{var t=localStorage.getItem('til-theme-c');if(t!=='light')document.documentElement.classList.add('dark');}catch(e){document.documentElement.classList.add('dark');}})();</script>
+<style>
+  :root{
+    --bg:#fbfaf7;--surface:#fff;--fg:#1a1625;--fg-dim:#6b6478;--fg-soft:#a59fb0;
+    --border:#ece8e1;--accent:#ff7a45;--accent-2:#7c5cff;
+    --tag-bg:#f4f0ea;--tag-fg:#3a2e4a;
+    --shadow:0 1px 2px rgba(20,18,33,.04),0 8px 24px rgba(20,18,33,.06);
+  }
+  html.dark{
+    --bg:#0f0d18;--surface:#171425;--fg:#f0ecf7;--fg-dim:#9590a8;--fg-soft:#5b556b;
+    --border:#231f33;--accent:#ff8a5a;--accent-2:#9d83ff;
+    --tag-bg:#1e1a2e;--tag-fg:#c8c0db;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px rgba(0,0,0,.4);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--fg);font-family:'Space Grotesk',system-ui,sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .layout{display:grid;grid-template-columns:30% 70%;min-height:100vh}
+  /* LEFT: topic cloud */
+  .side{padding:36px 32px;border-right:1px solid var(--border);position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;gap:24px}
+  .brand{font-size:20px;font-weight:700;letter-spacing:-.02em}
+  .brand .dot{color:var(--accent)}
+  .byline{font-size:13px;color:var(--fg-dim);margin-top:-12px}
+  .cloud{display:flex;flex-wrap:wrap;gap:8px 10px;align-content:flex-start;line-height:1.2}
+  .cloud a{padding:4px 10px;border-radius:999px;background:var(--tag-bg);color:var(--tag-fg);transition:all .15s;display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+  .cloud a:hover{background:var(--accent);color:#fff;transform:translateY(-1px)}
+  .cloud a .n{font-family:'JetBrains Mono',monospace;font-size:.78em;opacity:.7}
+  .cloud a.s1{font-size:13px}.cloud a.s2{font-size:15px}.cloud a.s3{font-size:18px;font-weight:600}.cloud a.s4{font-size:22px;font-weight:700}
+  .side .foot{margin-top:auto;font-size:12px;color:var(--fg-dim);display:flex;flex-direction:column;gap:8px}
+  .side .foot a{color:var(--fg-dim)}.side .foot a:hover{color:var(--accent)}
+  .theme-toggle{padding:8px 12px;border:1px solid var(--border);background:transparent;color:var(--fg);border-radius:10px;cursor:pointer;font:inherit;font-size:13px;display:flex;align-items:center;justify-content:space-between}
+  .theme-toggle:hover{border-color:var(--accent)}
+  /* RIGHT: feed */
+  .feed{padding:36px 56px 56px}
+  .toolbar{display:flex;gap:10px;margin-bottom:28px;align-items:center;flex-wrap:wrap}
+  .search{flex:1;min-width:240px;position:relative}
+  .search input{width:100%;padding:12px 16px 12px 40px;border:1px solid var(--border);background:var(--surface);color:var(--fg);border-radius:12px;font:inherit;font-size:14px;outline:none;transition:border-color .15s}
+  .search input:focus{border-color:var(--accent)}
+  .search::before{content:'⌕';position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--fg-dim);font-size:16px}
+  .btn{padding:11px 16px;border:1px solid var(--border);background:var(--surface);color:var(--fg);border-radius:12px;cursor:pointer;font:inherit;font-size:13px;display:inline-flex;align-items:center;gap:8px;transition:all .15s}
+  .btn:hover{border-color:var(--accent);color:var(--accent)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn.primary:hover{filter:brightness(1.08);color:#fff}
+  .view-toggle{display:inline-flex;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+  .view-toggle button{padding:11px 14px;background:transparent;border:none;color:var(--fg-dim);cursor:pointer;font:inherit;font-size:13px}
+  .view-toggle button.active{background:var(--accent);color:#fff}
+  .count{color:var(--fg-dim);font-size:13px;margin-bottom:14px}
+  .count strong{color:var(--fg)}
+  .list .item{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--border)}
+  .list .item:last-child{border-bottom:none}
+  .icon{flex:0 0 44px;height:44px;border-radius:12px;background:var(--tag-bg);display:flex;align-items:center;justify-content:center;font-size:22px}
+  .item .body{flex:1;min-width:0}
+  .item .m{font-size:12px;color:var(--fg-dim);margin-bottom:2px;font-family:'JetBrains Mono',monospace}
+  .item h3{font-size:16px;font-weight:600;margin-bottom:4px;letter-spacing:-.01em}
+  .item h3 a:hover{color:var(--accent)}
+  .item .preview{color:var(--fg-dim);font-size:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .grid .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:8px;transition:all .15s}
+  .grid .card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--accent)}
+  .grid .card .icon{width:36px;height:36px;font-size:18px;border-radius:10px}
+  .grid .card h3{font-size:15px;font-weight:600}
+  .grid .card .preview{font-size:13px;color:var(--fg-dim);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .grid .card .m{font-size:11px;color:var(--fg-dim);font-family:'JetBrains Mono',monospace}
+  .empty{padding:48px;text-align:center;color:var(--fg-dim);border:1px dashed var(--border);border-radius:14px}
+  @media(max-width:880px){.layout{grid-template-columns:1fr}.side{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}.feed{padding:24px}}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="side">
+    <div>
+      <div class="brand">dev<span class="dot">.</span>journal</div>
+      <p class="byline">til.soumendra.net — by Soumendra</p>
+    </div>
+    <div>
+      <h4 style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--fg-soft);margin-bottom:14px">Topic cloud</h4>
+      <div class="cloud" id="cloud"></div>
+    </div>
+    <button class="theme-toggle" id="themeBtn">
+      <span id="themeLabel">Toggle theme</span>
+      <span id="themeIcon">◐</span>
+    </button>
+    <div class="foot">
+      <a href="https://github.com/soumendrak/til" target="_blank" rel="noreferrer">GitHub ↗</a>
+      <a href="/feed.atom">RSS / Atom feed ↗</a>
+      <span>© 2026</span>
+    </div>
+  </aside>
+  <main class="feed">
+    <div class="toolbar">
+      <div class="search"><input id="q" type="search" placeholder="Search TILs…" autocomplete="off" /></div>
+      <button class="btn primary" id="randomBtn">🎲 Random</button>
+      <div class="view-toggle">
+        <button id="vList" class="active">≡ List</button>
+        <button id="vGrid">▦ Grid</button>
+      </div>
+    </div>
+    <p class="count" id="count"></p>
+    <div id="feed"></div>
+  </main>
+</div>
+<script src="./data.js"></script>
+<script>
+  var TOPIC_EMOJI = {python:'🐍',llm:'🤖',observability:'📡',otel:'📡',signoz:'📊',docker:'🐳',kubernetes:'☸',ci:'⚙️','github-actions':'⚙️',typescript:'🧩',rust:'🦀',wasm:'⚡',debug:'🪲',async:'⏱',linux:'🐧',git:'🌿',cli:'⌨'};
+  function emoji(tags){for(var i=0;i<tags.length;i++)if(TOPIC_EMOJI[tags[i]])return TOPIC_EMOJI[tags[i]];return '📝';}
+
+  var btn=document.getElementById('themeBtn');
+  function syncIcon(){var d=document.documentElement.classList.contains('dark');document.getElementById('themeIcon').textContent=d?'☾':'☀';document.getElementById('themeLabel').textContent=d?'Dark':'Light';}
+  syncIcon();
+  btn.onclick=function(){document.documentElement.classList.toggle('dark');localStorage.setItem('til-theme-c',document.documentElement.classList.contains('dark')?'dark':'light');syncIcon();};
+
+  // topic cloud sized by frequency
+  var counts={};TILS.forEach(function(t){t.tags.forEach(function(x){counts[x]=(counts[x]||0)+1})});
+  var max=Math.max.apply(null,Object.values(counts));
+  var cloud=document.getElementById('cloud');
+  Object.keys(counts).sort(function(a,b){return counts[b]-counts[a]}).forEach(function(tag){
+    var r=counts[tag]/max;var s=r>0.85?'s4':r>0.6?'s3':r>0.35?'s2':'s1';
+    var a=document.createElement('a');a.className=s;a.href='./topic.html?t='+encodeURIComponent(tag);
+    a.innerHTML='#'+tag+' <span class="n">'+counts[tag]+'</span>';cloud.appendChild(a);
+  });
+
+  // view + search state
+  var view='list',query='';
+  var feedEl=document.getElementById('feed'),countEl=document.getElementById('count');
+  function render(){
+    var q=query.trim().toLowerCase();
+    var items=TILS.filter(function(t){if(!q)return true;return (t.title+' '+t.preview+' '+t.tags.join(' ')).toLowerCase().indexOf(q)>=0;});
+    countEl.innerHTML='<strong>'+items.length+'</strong> '+(items.length===1?'entry':'entries')+(q?' matching "'+q+'"':'');
+    if(!items.length){feedEl.innerHTML='<div class="empty">No TILs match that search.</div>';return;}
+    if(view==='list'){
+      feedEl.className='list';
+      feedEl.innerHTML=items.map(function(t){
+        return '<div class="item"><div class="icon">'+emoji(t.tags)+'</div><div class="body">'+
+          '<div class="m">'+t.date+' · '+t.read+'min · #'+t.tags[0]+'</div>'+
+          '<h3><a href="./til.html?id='+t.slug+'">'+t.title+'</a></h3>'+
+          '<p class="preview">'+t.preview+'</p></div></div>';
+      }).join('');
+    } else {
+      feedEl.className='grid';
+      feedEl.innerHTML=items.map(function(t){
+        return '<a class="card" href="./til.html?id='+t.slug+'">'+
+          '<div class="icon">'+emoji(t.tags)+'</div>'+
+          '<div class="m">'+t.date+' · '+t.read+'min</div>'+
+          '<h3>'+t.title+'</h3>'+
+          '<p class="preview">'+t.preview+'</p></a>';
+      }).join('');
+    }
+  }
+  document.getElementById('q').addEventListener('input',function(e){query=e.target.value;render();});
+  document.getElementById('randomBtn').onclick=function(){var t=TILS[Math.floor(Math.random()*TILS.length)];location.href='./til.html?id='+t.slug;};
+  document.getElementById('vList').onclick=function(){view='list';document.getElementById('vList').classList.add('active');document.getElementById('vGrid').classList.remove('active');render();};
+  document.getElementById('vGrid').onclick=function(){view='grid';document.getElementById('vGrid').classList.add('active');document.getElementById('vList').classList.remove('active');render();};
+  render();
+</script>
+</body></html>
