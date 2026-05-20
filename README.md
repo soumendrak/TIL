@@ -169,13 +169,13 @@ sequenceDiagram
   participant GH as GitHub
   participant CI as GitHub Actions
   participant CF as Cloudflare Pages
-  Dev->>GH: push posts/&lt;slug&gt;.md
+  Dev->>GH: push a new posts/ Markdown file
   GH->>CI: trigger deploy workflow
-  CI->>CI: pnpm install --frozen-lockfile
-  CI->>CI: pnpm check  ·  validate posts
-  CI->>CI: pnpm build  ·  generate data.js
+  CI->>CI: pnpm install (frozen lockfile)
+  CI->>CI: pnpm check (validate posts)
+  CI->>CI: pnpm build (generate data.js)
   CI->>CF: wrangler pages deploy public/
-  CF-->>Dev: til.soumendra.net is live ✨
+  CF-->>Dev: til.soumendra.net is live
 ```
 
 ## 🧰 Tech stack
