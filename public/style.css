@@ -325,6 +325,13 @@ kbd{
 @media(prefers-reduced-motion:reduce){.kbd-modal{animation:none}}
 
 /* ---- Responsive ------------------------------------------------ */
+/* small screens: collapse the theme toggle to an icon-only button so
+   it stops crowding the header text */
+@media(max-width:640px){
+  .theme-toggle{padding:0;width:38px;height:38px;justify-content:center;gap:0}
+  .theme-toggle [data-theme-label],.theme-toggle kbd{display:none}
+  .theme-toggle [data-theme-icon]{font-size:16px}
+}
 @media(max-width:560px){
   .topbar{padding:12px 18px}
   .kbd-fab{right:14px;bottom:14px}
