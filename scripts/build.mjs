@@ -14,6 +14,7 @@
    so a malformed post can never reach production.
    ============================================================ */
 import { readdirSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { join, dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
@@ -249,6 +250,27 @@ function parsePost(file, raw) {
   };
 }
 
+/* Stamp a content hash onto the app.js / style.css / data.js references
+   in every HTML page. The CDN ignores our cache-control headers, so the
+   URL itself is the only reliable cache key — a changed asset gets a new
+   ?v= and can never be served stale against fresh HTML. */
+function stampAssets() {
+  const pub = join(ROOT, 'public');
+  const assets = ['app.js', 'style.css', 'data.js'];
+  const hash = createHash('sha256');
+  for (const a of assets) hash.update(readFileSync(join(pub, a)));
+  const version = hash.digest('hex').slice(0, 8);
+  for (const file of ['index.html', 'til.html', 'topic.html']) {
+    const path = join(pub, file);
+    const html = readFileSync(path, 'utf8').replace(
+      /\.\/(app\.js|style\.css|data\.js)(?:\?v=[^"']*)?/g,
+      `./$1?v=${version}`,
+    );
+    writeFileSync(path, html);
+  }
+  return version;
+}
+
 /* ---- main --------------------------------------------------------- */
 function main() {
   let files;
@@ -323,8 +345,11 @@ function main() {
   mkdirSync(dirname(OUT_FILE), { recursive: true });
   writeFileSync(OUT_FILE, banner + body);
 
+  const version = stampAssets();
+
   console.log(
     c.green(`✓ wrote ${posts.length} post(s) → public/data.js`) +
+      c.dim(` · assets stamped ?v=${version}`) +
       (warnCount ? c.yellow(` (${warnCount} warning(s))`) : ''),
   );
 }

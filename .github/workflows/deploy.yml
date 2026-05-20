@@ -22,10 +22,10 @@ jobs:
         run: pnpm check
       - name: Build data.js
         run: pnpm build
-      - name: Verify public/data.js is committed and up to date
+      - name: Verify generated files are committed and up to date
         run: |
-          if ! git diff --exit-code -- public/data.js; then
-            echo "::error::public/data.js is stale or uncommitted. Run 'pnpm build' and commit public/data.js with your post."
+          if ! git diff --exit-code -- public/data.js public/index.html public/til.html public/topic.html; then
+            echo "::error::Generated files are stale. Run 'pnpm build' and commit public/data.js plus the stamped HTML."
             exit 1
           fi
       - name: Upload built site
