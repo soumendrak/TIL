@@ -22,6 +22,12 @@ jobs:
         run: pnpm check
       - name: Build data.js
         run: pnpm build
+      - name: Verify public/data.js is committed and up to date
+        run: |
+          if ! git diff --exit-code -- public/data.js; then
+            echo "::error::public/data.js is stale or uncommitted. Run 'pnpm build' and commit public/data.js with your post."
+            exit 1
+          fi
       - name: Upload built site
         uses: actions/upload-artifact@v4
         with:

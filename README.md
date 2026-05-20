@@ -87,7 +87,8 @@ flowchart TD
   Gen --> Done(["✓ ready to deploy"])
 ```
 
-> `public/data.js` is **generated** and git-ignored. Never edit it by hand.
+> `public/data.js` is **generated** — never edit it by hand. Run `pnpm build`
+> and commit it alongside the post that changed. CI fails if it is stale.
 
 ## 📁 Project structure
 
@@ -102,7 +103,7 @@ TIL/
 │   ├── topic.html           #   posts filed under one tag
 │   ├── app.js               #   shared helpers — theme, colors, escaping
 │   ├── style.css            #   design system
-│   └── data.js              #   GENERATED — do not edit
+│   └── data.js              #   GENERATED — built from posts/, committed
 ├── scripts/
 │   ├── build.mjs            # validate posts → generate data.js
 │   └── serve.mjs            # minimal static server for local preview
@@ -169,11 +170,11 @@ sequenceDiagram
   participant GH as GitHub
   participant CI as GitHub Actions
   participant CF as Cloudflare Pages
-  Dev->>GH: push a new posts/ Markdown file
+  Dev->>GH: push posts/ and rebuilt public/data.js
   GH->>CI: trigger deploy workflow
   CI->>CI: pnpm install (frozen lockfile)
   CI->>CI: pnpm check (validate posts)
-  CI->>CI: pnpm build (generate data.js)
+  CI->>CI: pnpm build (verify data.js is current)
   CI->>CF: wrangler pages deploy public/
   CF-->>Dev: til.soumendra.net is live
 ```

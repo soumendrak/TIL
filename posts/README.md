@@ -9,8 +9,12 @@ files directly, and `public/data.js` is generated (never edit it by hand).
 1. Create `posts/<slug>.md`. The filename is the slug — it must be
    kebab-case (`agent-tool-hallucination.md`) and shows up in the URL.
 2. Write front matter + body (see below).
-3. Run `pnpm build` (or `pnpm check` to validate without writing).
-4. Commit the `.md` file. CI rebuilds `data.js` and deploys.
+3. Run `pnpm build` — this regenerates `public/data.js`.
+4. Commit **both** the `.md` file and the updated `public/data.js`.
+
+`public/data.js` is generated but committed, so a fresh clone and every
+deploy path serve a complete site. CI rebuilds it and fails the build if the
+committed copy is stale — so always run `pnpm build` before committing.
 
 ## File format
 

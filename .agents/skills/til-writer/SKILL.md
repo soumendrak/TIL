@@ -80,10 +80,12 @@ Follow these steps exactly when asked to write or edit a TIL.
    - On `✗ build failed`, read each error, fix the `.md` file, re-run. Do not
      proceed until it prints `✓ N post(s) valid`.
    - `⚠` warnings do not block the build, but address them if quick.
-4. **Do NOT edit `public/data.js`.** It is generated from `posts/*.md` by
-   `scripts/build.mjs`. It is gitignored — never create or hand-edit it.
-5. **Commit only the `.md` file** (plus any new tag noted below). Do not commit
-   `data.js`. CI runs `pnpm check` + `pnpm build` and Cloudflare Pages deploys.
+4. **Build:** run `pnpm build`. This regenerates `public/data.js`. Never
+   hand-edit `public/data.js` — it is generated from `posts/*.md` by
+   `scripts/build.mjs`.
+5. **Commit both** the new/changed `.md` file **and** the regenerated
+   `public/data.js` (plus any new tag noted below) in the same commit. CI
+   fails the deploy if `public/data.js` is stale, so this step is required.
 
 If `posts/` or the build tooling is missing, run `pnpm install` first.
 
@@ -134,8 +136,9 @@ A is better for X (reason). B is better for Y (reason). For our case, pick A bec
 
 - `pnpm install` once to get build dependencies (use pnpm or bun, never npm).
 - `pnpm check` validates every post without writing.
-- `pnpm build` regenerates `public/data.js`.
+- `pnpm build` regenerates `public/data.js` (commit it alongside the post).
 - `pnpm dev` builds then serves the site at http://localhost:8787.
 
 The site auto-deploys via Cloudflare Pages on push to main: CI runs `pnpm check`
-and `pnpm build` before deploying `public/`.
+and `pnpm build`, verifies the committed `public/data.js` is current, then
+deploys `public/`.
