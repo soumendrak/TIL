@@ -81,6 +81,9 @@
   .pn .lbl{font-family:'JetBrains Mono',monospace;font-size:11px;
     text-transform:uppercase;letter-spacing:.08em;color:var(--fg-soft)}
   .pn .pn-title{font-size:14px;font-weight:600;color:var(--fg);line-height:1.4}
+  .pn .lbl kbd{text-transform:none;letter-spacing:0;font-size:9.5px;
+    padding:2px 5px;min-width:0;vertical-align:middle}
+  .back-link kbd{font-size:10px;padding:2px 5px;min-width:0;vertical-align:middle}
   .pn.disabled{opacity:.4;pointer-events:none}
 
   .back-link{display:inline-flex;align-items:center;gap:7px;margin-top:34px;
@@ -101,9 +104,9 @@
 <header class="topbar">
   <a class="brand" href="./index.html">dev<span class="dot">.</span>journal</a>
   <div class="topbar-right">
-    <button class="btn" id="randomBtn">🎲 Random</button>
+    <button class="btn" id="randomBtn">🎲 Random <kbd>r</kbd></button>
     <button class="theme-toggle" data-theme-toggle>
-      <span data-theme-label>Theme</span><span data-theme-icon>◐</span>
+      <span data-theme-label>Theme</span><span data-theme-icon>◐</span><kbd>t</kbd>
     </button>
   </div>
 </header>
@@ -134,7 +137,7 @@
   <article class="article" id="body"></article>
 
   <div class="prevnext" id="prevnext"></div>
-  <a class="back-link" href="./index.html">← Back to all entries</a>
+  <a class="back-link" href="./index.html">← Back to all entries <kbd>h</kbd></a>
 
   <footer class="page-foot">
     <span>Written by <a class="namelink" href="https://www.soumendrak.com" target="_blank" rel="noreferrer">Soumendra Kumar Sahoo</a></span>
@@ -152,11 +155,12 @@
   });
 
   TIL.initTheme();
-  document.getElementById('randomBtn').onclick=function(){
+  function goRandom(){
     if(!TILS.length)return;
     var r=TILS[Math.floor(Math.random()*TILS.length)];
-    location.href='./til.html?id='+r.slug;
-  };
+    location.href='./til.html?id='+encodeURIComponent(r.slug);
+  }
+  document.getElementById('randomBtn').onclick=goRandom;
 
   var id=new URLSearchParams(location.search).get('id');
   var idx=Math.max(0,TILS.findIndex(function(x){return x.slug===id}));
@@ -218,9 +222,21 @@
         '<span class="pn-title">'+(isNext?'Nothing older':'Nothing newer')+'</span></span>';
     }
     return '<a class="pn '+(isNext?'next':'')+'" href="./til.html?id='+encodeURIComponent(entry.slug)+'">'+
-      '<span class="lbl">'+(isNext?'Older →':'← Newer')+'</span>'+
+      '<span class="lbl">'+(isNext?'Older → <kbd>j</kbd>':'<kbd>k</kbd> ← Newer')+'</span>'+
       '<span class="pn-title">'+TIL.esc(entry.title||entry.slug||'Untitled')+'</span></a>';
   }
+
+  function goHome(){location.href='./index.html';}
+  function goTo(entry){ if(entry) location.href='./til.html?id='+encodeURIComponent(entry.slug); }
+
+  TIL.initShortcuts([
+    {keys:['k','ArrowLeft'],hint:['k','←'],desc:'Newer post',run:function(){goTo(newer);}},
+    {keys:['j','ArrowRight'],hint:['j','→'],desc:'Older post',run:function(){goTo(older);}},
+    {keys:['h'],hint:['h'],desc:'Back to all entries',run:goHome},
+    {keys:['r'],hint:['r'],desc:'Open a random post',run:goRandom},
+    {keys:['t'],hint:['t'],desc:'Toggle light / dark theme',run:TIL.toggleTheme},
+    {keys:['?'],hint:['?'],desc:'Show / hide this panel'},
+  ]);
 
   /* reading progress */
   var bar=document.getElementById('progress');

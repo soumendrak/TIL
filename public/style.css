@@ -244,7 +244,88 @@ body::after{
 .hljs-meta,.hljs-deletion{color:var(--fg-dim)}
 .hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}
 
+/* ---- Keyboard hints + shortcuts ------------------------------- */
+kbd{
+  font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;line-height:1;
+  color:var(--fg-dim);background:var(--surface-2);
+  border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:6px;
+  padding:3px 6px;min-width:19px;display:inline-flex;align-items:center;
+  justify-content:center;font-weight:500;
+}
+/* a subtle inline hint cluster placed near a control */
+.khint{
+  display:inline-flex;align-items:center;flex-wrap:wrap;gap:5px;
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--fg-soft);
+}
+.khint kbd{font-size:10px;padding:2px 5px;min-width:16px;color:var(--fg-soft)}
+/* keycap tucked inside a button — quieter than a standalone kbd */
+.btn kbd,.theme-toggle kbd,.topbar kbd{
+  font-size:10px;padding:2px 5px;min-width:15px;border-radius:5px;
+  background:color-mix(in oklab,currentColor 12%,transparent);
+  border-color:transparent;color:inherit;opacity:.7;
+}
+
+/* floating help launcher — present on every screen */
+.kbd-fab{
+  position:fixed;right:18px;bottom:18px;z-index:40;
+  width:34px;height:34px;border-radius:10px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--surface);border:1px solid var(--border);color:var(--fg-dim);
+  box-shadow:var(--shadow-sm);font-family:'JetBrains Mono',monospace;
+  font-size:15px;font-weight:700;
+  transition:border-color .15s,color .15s,transform .15s;
+}
+.kbd-fab:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+
+/* j/k roving highlight on feed entries */
+.item.kbd-on,.card.kbd-on{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px color-mix(in oklab,var(--accent) 22%,transparent),var(--shadow);
+}
+.item.kbd-on::before,.card.kbd-on::before{opacity:1}
+.item.kbd-on .entry-title,.card.kbd-on .entry-title{color:var(--accent)}
+
+/* shortcuts overlay */
+.kbd-scrim{
+  position:fixed;inset:0;z-index:50;display:none;
+  align-items:center;justify-content:center;padding:24px;
+  background:color-mix(in oklab,var(--bg) 38%,rgba(8,6,16,.6));
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+}
+.kbd-scrim.open{display:flex}
+.kbd-modal{
+  width:min(440px,100%);background:var(--surface);
+  border:1px solid var(--border-strong);border-radius:18px;
+  box-shadow:var(--shadow);overflow:hidden;
+  animation:kbd-pop .16s cubic-bezier(.2,.7,.3,1);
+}
+@keyframes kbd-pop{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
+.kbd-modal-h{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:15px 20px;border-bottom:1px solid var(--border);
+}
+.kbd-modal-h h2{font-size:15px;font-weight:600;letter-spacing:-.01em;color:var(--fg)}
+.kbd-modal-h .x{
+  cursor:pointer;color:var(--fg-soft);font-size:15px;line-height:1;
+  background:none;border:none;padding:4px;transition:color .15s;
+}
+.kbd-modal-h .x:hover{color:var(--accent)}
+.kbd-rows{padding:6px 12px 12px;display:flex;flex-direction:column}
+.kbd-row{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;padding:9px 8px;
+}
+.kbd-row+.kbd-row{border-top:1px solid color-mix(in oklab,var(--border) 65%,transparent)}
+.kbd-row .desc{font-size:13px;color:var(--fg-body)}
+.kbd-row .combo{display:flex;gap:5px;flex-shrink:0}
+.kbd-modal-foot{
+  padding:11px 20px;border-top:1px solid var(--border);
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--fg-soft);
+}
+@media(prefers-reduced-motion:reduce){.kbd-modal{animation:none}}
+
 /* ---- Responsive ------------------------------------------------ */
 @media(max-width:560px){
   .topbar{padding:12px 18px}
+  .kbd-fab{right:14px;bottom:14px}
 }

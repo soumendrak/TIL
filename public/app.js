@@ -79,5 +79,103 @@ window.TIL = (function () {
     });
   }
 
-  return { esc: esc, emoji: emoji, hue: hue, color: color, initTheme: initTheme, reveal: reveal };
+  /* ---- Keyboard shortcuts --------------------------------------- */
+
+  /* true while the user is typing in a field — shortcuts stay quiet then */
+  function isTyping() {
+    var el = document.activeElement;
+    return !!el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable);
+  }
+
+  /* flip the theme — same effect as clicking a [data-theme-toggle] */
+  function toggleTheme() {
+    var dark = document.documentElement.classList.toggle('dark');
+    try { localStorage.setItem('til-theme-c', dark ? 'dark' : 'light'); } catch (e) {}
+    syncTheme();
+  }
+
+  /* a roving j/k highlight over a set of link rows inside `container` */
+  function rover(container, selector) {
+    var sel = -1;
+    function items() { return [].slice.call(container.querySelectorAll(selector)); }
+    function paint(list) {
+      for (var i = 0; i < list.length; i++) list[i].classList.toggle('kbd-on', i === sel);
+    }
+    function move(step) {
+      var list = items();
+      if (!list.length) return;
+      sel = sel < 0 ? (step > 0 ? 0 : list.length - 1) : sel + step;
+      sel = Math.max(0, Math.min(list.length - 1, sel));
+      paint(list);
+      list[sel].scrollIntoView({ block: 'nearest' });
+    }
+    return {
+      next: function () { move(1); },
+      prev: function () { move(-1); },
+      open: function () { var l = items(); if (sel >= 0 && l[sel]) l[sel].click(); },
+      reset: function () { sel = -1; paint(items()); },
+    };
+  }
+
+  /* build the shortcuts overlay + floating launcher, then wire keydown.
+     items: [{ keys:[...], hint:[...], desc:'...', run?:fn }]
+     entries without `run` are documentation-only (handled elsewhere). */
+  function initShortcuts(items) {
+    var scrim = document.createElement('div');
+    scrim.className = 'kbd-scrim';
+    var rows = items.map(function (it) {
+      var combo = (it.hint || it.keys).map(function (k) {
+        return '<kbd>' + esc(k) + '</kbd>';
+      }).join('');
+      return '<div class="kbd-row"><span class="desc">' + esc(it.desc) +
+        '</span><span class="combo">' + combo + '</span></div>';
+    }).join('');
+    scrim.innerHTML =
+      '<div class="kbd-modal" role="dialog" aria-modal="true" aria-label="Keyboard shortcuts">' +
+        '<div class="kbd-modal-h"><h2>⌨ Keyboard shortcuts</h2>' +
+          '<button class="x" type="button" aria-label="Close">✕</button></div>' +
+        '<div class="kbd-rows">' + rows + '</div>' +
+        '<div class="kbd-modal-foot">these work from any screen</div>' +
+      '</div>';
+    document.body.appendChild(scrim);
+
+    var fab = document.createElement('button');
+    fab.className = 'kbd-fab';
+    fab.type = 'button';
+    fab.title = 'Keyboard shortcuts (press ?)';
+    fab.setAttribute('aria-label', 'Show keyboard shortcuts');
+    fab.textContent = '?';
+    document.body.appendChild(fab);
+
+    function isOpen() { return scrim.classList.contains('open'); }
+    function close() { scrim.classList.remove('open'); }
+    function toggle() { scrim.classList.toggle('open'); }
+
+    fab.addEventListener('click', toggle);
+    scrim.querySelector('.x').addEventListener('click', close);
+    scrim.addEventListener('click', function (e) { if (e.target === scrim) close(); });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key === 'Escape') { if (isOpen()) { close(); e.preventDefault(); } return; }
+      if (isTyping()) return;
+      var key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+      if (key === '?') { toggle(); e.preventDefault(); return; }
+      if (isOpen()) return;
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].run && items[i].keys.indexOf(key) >= 0) {
+          e.preventDefault();
+          items[i].run(e);
+          return;
+        }
+      }
+    });
+  }
+
+  return {
+    esc: esc, emoji: emoji, hue: hue, color: color,
+    initTheme: initTheme, reveal: reveal,
+    isTyping: isTyping, toggleTheme: toggleTheme,
+    rover: rover, initShortcuts: initShortcuts,
+  };
 })();

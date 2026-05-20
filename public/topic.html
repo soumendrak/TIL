@@ -49,7 +49,7 @@
   <a class="brand" href="./index.html">dev<span class="dot">.</span>journal</a>
   <div class="topbar-right">
     <button class="theme-toggle" data-theme-toggle>
-      <span data-theme-label>Theme</span><span data-theme-icon>◐</span>
+      <span data-theme-label>Theme</span><span data-theme-icon>◐</span><kbd>t</kbd>
     </button>
   </div>
 </header>
@@ -70,6 +70,9 @@
   </div>
 
   <h4 class="sec-h" id="listHead">Entries</h4>
+  <p class="khint" id="listHint" style="margin:-4px 0 14px">
+    <kbd>j</kbd> <kbd>k</kbd> browse · <kbd>↵</kbd> open · <kbd>h</kbd> home · <kbd>?</kbd> shortcuts
+  </p>
   <div class="list" id="list"></div>
 
   <div id="relatedWrap" style="display:none">
@@ -109,6 +112,7 @@
   var listEl=document.getElementById('list');
   if(!entries.length){
     document.getElementById('listHead').style.display='none';
+    document.getElementById('listHint').style.display='none';
     listEl.className='';
     listEl.innerHTML='<div class="empty"><span class="big">🪴</span>'+
       'No entries filed under #'+TIL.esc(topic)+' yet.<br>'+
@@ -146,6 +150,24 @@
         encodeURIComponent(x)+'"><span class="swatch"></span>#'+TIL.esc(x)+'</a>';
     }).join('');
   }
+
+  /* keyboard shortcuts */
+  var nav=TIL.rover(listEl,'.item');
+  function goHome(){location.href='./index.html';}
+  function goRandom(){
+    if(!TILS.length)return;
+    var r=TILS[Math.floor(Math.random()*TILS.length)];
+    location.href='./til.html?id='+encodeURIComponent(r.slug);
+  }
+  TIL.initShortcuts([
+    {keys:['j'],hint:['j'],desc:'Highlight next entry',run:nav.next},
+    {keys:['k'],hint:['k'],desc:'Highlight previous entry',run:nav.prev},
+    {keys:['Enter','o'],hint:['↵'],desc:'Open highlighted entry',run:nav.open},
+    {keys:['h'],hint:['h'],desc:'Back to all entries',run:goHome},
+    {keys:['r'],hint:['r'],desc:'Open a random post',run:goRandom},
+    {keys:['t'],hint:['t'],desc:'Toggle light / dark theme',run:TIL.toggleTheme},
+    {keys:['?'],hint:['?'],desc:'Show / hide this panel'},
+  ]);
 </script>
 </body>
 </html>

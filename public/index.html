@@ -67,6 +67,7 @@
     border:1px solid var(--border);border-radius:6px;padding:2px 7px;background:var(--bg);
     transition:opacity .15s}
   .search.hot kbd{opacity:0}
+  .feed-hint{margin:-2px 0 16px}
   @media(max-width:980px){
     .hero{padding:48px 26px 36px}.hero-theme{right:26px}
     .layout{grid-template-columns:1fr}
@@ -89,7 +90,7 @@
     </div>
   </div>
   <button class="theme-toggle hero-theme" data-theme-toggle>
-    <span data-theme-label>Theme</span><span data-theme-icon>◐</span>
+    <span data-theme-label>Theme</span><span data-theme-icon>◐</span><kbd>t</kbd>
   </button>
 </header>
 
@@ -109,13 +110,16 @@
         <input id="q" type="search" placeholder="Search titles, topics, notes…" autocomplete="off" />
         <kbd>/</kbd>
       </div>
-      <button class="btn primary" id="randomBtn">🎲 Surprise me</button>
+      <button class="btn primary" id="randomBtn">🎲 Surprise me <kbd>r</kbd></button>
       <div class="view-toggle">
         <button id="vList" class="active">≡ List</button>
         <button id="vGrid">▦ Grid</button>
       </div>
     </div>
     <p class="count" id="count"></p>
+    <p class="khint feed-hint">
+      <kbd>j</kbd> <kbd>k</kbd> browse · <kbd>↵</kbd> open · <kbd>v</kbd> grid/list · <kbd>?</kbd> all shortcuts
+    </p>
     <div id="feed"></div>
   </main>
 
@@ -159,6 +163,7 @@
   /* ---- feed render ---- */
   var view='list', query='';
   var feedEl=document.getElementById('feed'), countEl=document.getElementById('count');
+  var nav=TIL.rover(feedEl,'.item,.card');
 
   function tagsHtml(t){
     return (t.tags||[]).slice(0,4).map(function(x){return '<span>#'+TIL.esc(x)+'</span>'}).join('');
@@ -211,6 +216,7 @@
       }).join('');
     }
     TIL.reveal('#feed [data-reveal]');
+    nav.reset();
   }
 
   /* ---- interactions ---- */
@@ -223,19 +229,32 @@
     if(e.key==='Escape'&&document.activeElement===qInput){qInput.value='';query='';render();qInput.blur();}
   });
 
-  document.getElementById('randomBtn').onclick=function(){
+  function goRandom(){
     if(!TILS.length)return;
     var t=TILS[Math.floor(Math.random()*TILS.length)];
-    location.href='./til.html?id='+t.slug;
-  };
+    location.href='./til.html?id='+encodeURIComponent(t.slug);
+  }
+  document.getElementById('randomBtn').onclick=goRandom;
   function setView(v){
     view=v;
     document.getElementById('vList').classList.toggle('active',v==='list');
     document.getElementById('vGrid').classList.toggle('active',v==='grid');
     render();
   }
+  function toggleView(){setView(view==='list'?'grid':'list');}
   document.getElementById('vList').onclick=function(){setView('list')};
   document.getElementById('vGrid').onclick=function(){setView('grid')};
+
+  TIL.initShortcuts([
+    {keys:['j'],hint:['j'],desc:'Highlight next entry',run:nav.next},
+    {keys:['k'],hint:['k'],desc:'Highlight previous entry',run:nav.prev},
+    {keys:['Enter','o'],hint:['↵'],desc:'Open highlighted entry',run:nav.open},
+    {keys:['/'],hint:['/'],desc:'Focus the search box'},
+    {keys:['v'],hint:['v'],desc:'Toggle list / grid view',run:toggleView},
+    {keys:['r'],hint:['r'],desc:'Open a random post',run:goRandom},
+    {keys:['t'],hint:['t'],desc:'Toggle light / dark theme',run:TIL.toggleTheme},
+    {keys:['?'],hint:['?'],desc:'Show / hide this panel'},
+  ]);
 
   render();
 </script>
