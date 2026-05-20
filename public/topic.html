@@ -5,63 +5,149 @@
 <title>Topic — Dev Journal</title>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <script>(function(){try{var t=localStorage.getItem('til-theme-c');if(t!=='light')document.documentElement.classList.add('dark');}catch(e){document.documentElement.classList.add('dark');}})();</script>
+<link rel="stylesheet" href="./style.css" />
 <style>
-  :root{--bg:#fbfaf7;--surface:#fff;--fg:#1a1625;--fg-dim:#6b6478;--border:#ece8e1;--accent:#ff7a45;--tag-bg:#f4f0ea;--tag-fg:#3a2e4a}
-  html.dark{--bg:#0f0d18;--surface:#171425;--fg:#f0ecf7;--fg-dim:#9590a8;--border:#231f33;--accent:#ff8a5a;--tag-bg:#1e1a2e;--tag-fg:#c8c0db}
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{background:var(--bg);color:var(--fg);font-family:'Space Grotesk',system-ui,sans-serif;font-size:15px;line-height:1.55}
-  a{color:inherit;text-decoration:none}
-  header{padding:20px 36px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-  .brand{font-weight:700}.brand .dot{color:var(--accent)}
-  .theme-toggle{padding:8px 12px;border:1px solid var(--border);background:transparent;color:var(--fg);border-radius:10px;cursor:pointer;font:inherit;font-size:13px}
-  main{max-width:880px;margin:0 auto;padding:48px 36px}
-  .crumbs{color:var(--fg-dim);font-size:13px;margin-bottom:14px;font-family:'JetBrains Mono',monospace}
+  .wrap{max-width:880px;margin:0 auto;padding:44px 32px 80px}
+  .crumbs{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--fg-dim);
+    margin-bottom:24px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
   .crumbs a:hover{color:var(--accent)}
-  h1{font-size:44px;font-weight:700;letter-spacing:-.03em;display:flex;align-items:center;gap:12px}
-  h1 .emoji{font-size:36px}
-  h1 .hash{color:var(--accent)}
-  .meta{color:var(--fg-dim);margin:10px 0 32px;font-size:14px}
-  .item{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--border)}
-  .icon{flex:0 0 44px;height:44px;border-radius:12px;background:var(--tag-bg);display:flex;align-items:center;justify-content:center;font-size:22px}
-  .body{flex:1;min-width:0}
-  .m{font-size:12px;color:var(--fg-dim);font-family:'JetBrains Mono',monospace;margin-bottom:2px}
-  h3{font-size:16px;font-weight:600}
-  h3 a:hover{color:var(--accent)}
-  .preview{color:var(--fg-dim);font-size:14px;margin-top:4px}
-  .empty{padding:48px;text-align:center;color:var(--fg-dim);border:1px dashed var(--border);border-radius:14px}
+  .crumbs .sep{color:var(--fg-soft)}
+
+  .topic-head{
+    position:relative;padding:30px 30px;border-radius:20px;margin-bottom:34px;
+    border:1px solid color-mix(in oklab,var(--c) 32%,var(--border));
+    background:
+      linear-gradient(135deg,color-mix(in oklab,var(--c) 13%,var(--surface)),var(--surface) 70%);
+    overflow:hidden;
+  }
+  .topic-head::after{content:'';position:absolute;right:-40px;top:-40px;
+    width:200px;height:200px;border-radius:50%;
+    background:radial-gradient(color-mix(in oklab,var(--c) 26%,transparent),transparent 70%)}
+  .topic-emoji{width:56px;height:56px;border-radius:15px;font-size:30px;
+    display:flex;align-items:center;justify-content:center;margin-bottom:16px;
+    background:color-mix(in oklab,var(--c) 18%,var(--surface));
+    border:1px solid color-mix(in oklab,var(--c) 32%,transparent)}
+  .topic-head h1{font-size:clamp(30px,4.5vw,44px);font-weight:700;letter-spacing:-.03em;
+    line-height:1.1;display:flex;align-items:baseline;gap:4px}
+  .topic-head h1 .hash{color:var(--c)}
+  .topic-head .meta{margin-top:10px;font-family:'JetBrains Mono',monospace;
+    font-size:13px;color:var(--fg-dim)}
+  .topic-head .meta strong{color:var(--fg)}
+
+  .sec-h{font-size:11px;text-transform:uppercase;letter-spacing:.13em;
+    color:var(--fg-soft);font-weight:600;margin-bottom:14px}
+  .related{display:flex;flex-wrap:wrap;gap:8px;margin-top:40px}
+
+  @media(max-width:560px){.wrap{padding:32px 20px 60px}.topic-head{padding:24px 22px}}
 </style>
 </head>
 <body>
-  <header>
-    <a class="brand" href="./index.html">dev<span class="dot">.</span>journal</a>
-    <button class="theme-toggle" id="themeBtn">Toggle theme</button>
-  </header>
-  <main>
-    <div class="crumbs"><a href="./index.html">~/journal</a> / topic / <span id="bc"></span></div>
-    <h1><span class="emoji" id="emoji">📝</span> <span class="hash">#</span><span id="title"></span></h1>
-    <p class="meta"><span id="count">0</span> entries filed under this tag</p>
-    <div id="list"></div>
-  </main>
+<header class="topbar">
+  <a class="brand" href="./index.html">dev<span class="dot">.</span>journal</a>
+  <div class="topbar-right">
+    <button class="theme-toggle" data-theme-toggle>
+      <span data-theme-label>Theme</span><span data-theme-icon>◐</span>
+    </button>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="crumbs">
+    <a href="./index.html">~/journal</a>
+    <span class="sep">/</span>
+    <span>topics</span>
+    <span class="sep">/</span>
+    <span id="bc"></span>
+  </nav>
+
+  <div class="topic-head" id="topicHead">
+    <div class="topic-emoji" id="emoji">📝</div>
+    <h1><span class="hash">#</span><span id="title"></span></h1>
+    <p class="meta"><strong id="count">0</strong> entries filed under this topic</p>
+  </div>
+
+  <h4 class="sec-h" id="listHead">Entries</h4>
+  <div class="list" id="list"></div>
+
+  <div id="relatedWrap" style="display:none">
+    <h4 class="sec-h" style="margin-top:42px">Related topics</h4>
+    <div class="related" id="related"></div>
+  </div>
+
+  <footer class="page-foot">
+    <span>A journal by <a class="namelink" href="https://www.soumendrak.com" target="_blank" rel="noreferrer">Soumendra Kumar Sahoo</a></span>
+    <span class="sep">·</span>
+    <a href="https://www.soumendrak.com" target="_blank" rel="noreferrer">soumendrak.com ↗</a>
+    <span class="sep">·</span>
+    <a href="https://github.com/soumendrak/til" target="_blank" rel="noreferrer">GitHub ↗</a>
+  </footer>
+</div>
+
 <script src="./data.js"></script>
+<script src="./app.js"></script>
 <script>
-  var TOPIC_EMOJI={python:'🐍',llm:'🤖',observability:'📡',otel:'📡',signoz:'📊',docker:'🐳',kubernetes:'☸',ci:'⚙️','github-actions':'⚙️',typescript:'🧩',rust:'🦀',wasm:'⚡',debug:'🪲',async:'⏱',linux:'🐧',git:'🌿',cli:'⌨'};
-  document.getElementById('themeBtn').onclick=function(){document.documentElement.classList.toggle('dark');localStorage.setItem('til-theme-c',document.documentElement.classList.contains('dark')?'dark':'light');};
-  var t=new URLSearchParams(location.search).get('t')||'observability';
-  document.getElementById('title').textContent=t;document.getElementById('bc').textContent=t;
-  document.getElementById('emoji').textContent=TOPIC_EMOJI[t]||'📝';
-  document.title='#'+t+' — Dev Journal';
-  var f=TILS.filter(function(x){return x.tags.indexOf(t)>=0});
-  document.getElementById('count').textContent=f.length;
+  var TILS = (window.TILS || []).slice().sort(function(a,b){
+    return (b.date||'').localeCompare(a.date||'');
+  });
+  TIL.initTheme();
+
+  var topic=new URLSearchParams(location.search).get('t')||'';
+  var c=TIL.color(topic||'note');
+  document.documentElement.style.setProperty('--c',c);
+  document.getElementById('topicHead').style.setProperty('--c',c);
+  document.getElementById('emoji').style.setProperty('--c',c);
+
+  document.getElementById('title').textContent=topic;
+  document.getElementById('bc').textContent='#'+topic;
+  document.getElementById('emoji').textContent=TIL.emoji([topic]);
+  document.title='#'+topic+' — Dev Journal';
+
+  var entries=TILS.filter(function(x){return (x.tags||[]).indexOf(topic)>=0});
+  document.getElementById('count').textContent=entries.length;
+
   var listEl=document.getElementById('list');
-  if(!f.length){listEl.innerHTML='<div class="empty">No entries yet under #'+t+'.</div>';return;}
-  function emoji(tags){for(var i=0;i<tags.length;i++)if(TOPIC_EMOJI[tags[i]])return TOPIC_EMOJI[tags[i]];return '📝';}
-  listEl.innerHTML=f.map(function(x){
-    return '<div class="item"><div class="icon">'+emoji(x.tags)+'</div><div class="body">'+
-      '<div class="m">'+x.date+' · '+x.read+'min</div>'+
-      '<h3><a href="./til.html?id='+x.slug+'">'+x.title+'</a></h3>'+
-      '<p class="preview">'+x.preview+'</p></div></div>';
-  }).join('');
+  if(!entries.length){
+    document.getElementById('listHead').style.display='none';
+    listEl.className='';
+    listEl.innerHTML='<div class="empty"><span class="big">🪴</span>'+
+      'No entries filed under #'+topic+' yet.<br>'+
+      '<a href="./index.html" style="color:var(--accent)">Browse everything →</a></div>';
+  } else {
+    listEl.innerHTML=entries.map(function(t){
+      var tc=TIL.color((t.tags&&t.tags[0])||'note');
+      var primary=(t.tags&&t.tags[0])||'note';
+      return '<a class="item" data-reveal style="--c:'+tc+'" href="./til.html?id='+t.slug+'">'+
+        '<span class="t-icon">'+TIL.emoji(t.tags)+'</span>'+
+        '<span class="entry-body">'+
+          '<span class="entry-meta">'+t.date+' &nbsp;·&nbsp; '+t.read+
+            ' min &nbsp;·&nbsp; <span class="tag">#'+primary+'</span></span>'+
+          '<span class="entry-title">'+t.title+'</span>'+
+          '<span class="entry-preview">'+(t.preview||'')+'</span>'+
+          '<span class="entry-tags">'+(t.tags||[]).slice(0,4).map(function(x){
+            return '<span>#'+x+'</span>'}).join('')+'</span>'+
+        '</span>'+
+        '<span class="item-arrow">→</span>'+
+      '</a>';
+    }).join('');
+    TIL.reveal('#list [data-reveal]');
+  }
+
+  /* related topics — tags that co-occur with this one */
+  var related={};
+  entries.forEach(function(t){
+    (t.tags||[]).forEach(function(x){if(x!==topic)related[x]=(related[x]||0)+1});
+  });
+  var relKeys=Object.keys(related).sort(function(a,b){return related[b]-related[a]});
+  if(relKeys.length){
+    document.getElementById('relatedWrap').style.display='block';
+    document.getElementById('related').innerHTML=relKeys.map(function(x){
+      return '<a class="pill" style="--c:'+TIL.color(x)+'" href="./topic.html?t='+
+        encodeURIComponent(x)+'"><span class="swatch"></span>#'+x+'</a>';
+    }).join('');
+  }
 </script>
-</body></html>
+</body>
+</html>

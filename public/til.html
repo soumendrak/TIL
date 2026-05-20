@@ -7,79 +7,232 @@
 <link rel="canonical" href="https://til.soumendra.net/til/" />
 <meta property="og:type" content="article" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <script>(function(){try{var t=localStorage.getItem('til-theme-c');if(t!=='light')document.documentElement.classList.add('dark');}catch(e){document.documentElement.classList.add('dark');}})();</script>
+<link rel="stylesheet" href="./style.css" />
 <style>
-  :root{--bg:#fbfaf7;--surface:#fff;--fg:#1a1625;--fg-dim:#6b6478;--border:#ece8e1;--accent:#ff7a45;--accent-2:#7c5cff;--tag-bg:#f4f0ea;--tag-fg:#3a2e4a}
-  html.dark{--bg:#0f0d18;--surface:#171425;--fg:#f0ecf7;--fg-dim:#9590a8;--border:#231f33;--accent:#ff8a5a;--accent-2:#9d83ff;--tag-bg:#1e1a2e;--tag-fg:#c8c0db}
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{background:var(--bg);color:var(--fg);font-family:'Space Grotesk',system-ui,sans-serif;font-size:16px;line-height:1.7}
-  a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
-  header{padding:18px 36px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:color-mix(in oklab,var(--bg) 90%,transparent);backdrop-filter:blur(10px);z-index:5}
-  .brand{font-weight:700;color:var(--fg)}.brand .dot{color:var(--accent)}.brand:hover{text-decoration:none}
-  .header-right{display:flex;gap:8px}
-  .btn{padding:8px 12px;border:1px solid var(--border);background:transparent;color:var(--fg);border-radius:10px;cursor:pointer;font:inherit;font-size:13px}
-  .btn:hover{border-color:var(--accent)}
-  main{max-width:720px;margin:0 auto;padding:48px 36px 80px}
-  .crumbs{color:var(--fg-dim);font-size:13px;margin-bottom:18px;font-family:'JetBrains Mono',monospace}
-  .crumbs a{color:var(--fg-dim)}.crumbs a:hover{color:var(--accent)}
-  .header-row{display:flex;gap:18px;align-items:flex-start;margin-bottom:14px}
-  .post-icon{flex:0 0 56px;height:56px;border-radius:14px;background:var(--tag-bg);display:flex;align-items:center;justify-content:center;font-size:30px;margin-top:6px}
-  h1{font-size:36px;font-weight:700;letter-spacing:-.02em;line-height:1.15;color:var(--fg);flex:1}
-  .post-meta{color:var(--fg-dim);font-size:14px;font-family:'JetBrains Mono',monospace;margin-bottom:24px}
-  .pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:36px}
-  .pill{font-size:12px;padding:4px 12px;border-radius:999px;background:var(--tag-bg);color:var(--tag-fg);transition:all .15s}
-  .pill:hover{background:var(--accent);color:#fff;text-decoration:none}
-  article{color:var(--fg)}
-  article p{margin:16px 0}
-  article h2{font-size:22px;font-weight:600;margin:36px 0 12px;letter-spacing:-.01em;color:var(--fg)}
-  article ul{margin:14px 0 14px 24px}article li{margin:6px 0}
-  article code{font-family:'JetBrains Mono',monospace;font-size:.86em;background:var(--tag-bg);padding:2px 6px;border-radius:4px;color:var(--accent-2)}
-  article pre{font-family:'JetBrains Mono',monospace;background:var(--surface);border:1px solid var(--border);padding:18px 20px;border-radius:12px;overflow-x:auto;margin:18px 0;font-size:13px;line-height:1.6}
-  article pre code{background:transparent;padding:0;color:var(--fg)}
-  .footer-nav{margin-top:56px;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:14px;gap:16px}
-  .footer-nav a{color:var(--fg-dim)}.footer-nav a:hover{color:var(--accent)}
+  /* ---- reading progress ---- */
+  .progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:60;
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .08s linear}
+
+  /* ---- article shell ---- */
+  .reader{max-width:744px;margin:0 auto;padding:46px 32px 88px}
+  .crumbs{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--fg-dim);
+    margin-bottom:26px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .crumbs a:hover{color:var(--accent)}
+  .crumbs .sep{color:var(--fg-soft)}
+
+  .post-head{display:flex;gap:18px;align-items:flex-start;margin-bottom:16px}
+  .post-head .t-icon{width:58px;height:58px;flex-basis:58px;font-size:30px;
+    border-radius:16px;margin-top:4px}
+  h1{font-size:clamp(28px,4vw,40px);font-weight:700;letter-spacing:-.03em;
+    line-height:1.14;color:var(--fg)}
+  .post-meta{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--fg-dim);
+    margin-bottom:18px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .post-meta .sep{color:var(--fg-soft)}
+  .post-pills{margin-bottom:34px}
+  .rule{height:1px;background:linear-gradient(90deg,
+    color-mix(in oklab,var(--c,var(--accent)) 55%,transparent),transparent);
+    margin-bottom:34px}
+
+  /* ---- article body ---- */
+  .article{font-size:16.5px;line-height:1.78;color:var(--fg-body)}
+  .article p{margin:18px 0}
+  .article > p:first-of-type{font-size:18.5px;line-height:1.66;color:var(--fg)}
+  .article strong{color:var(--fg);font-weight:600}
+  .article em{color:var(--fg)}
+  .article a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;
+    text-decoration-thickness:1px}
+  .article a:hover{text-decoration-thickness:2px}
+  .article h2{font-size:22px;font-weight:600;letter-spacing:-.01em;color:var(--fg);
+    margin:42px 0 12px;display:flex;align-items:center;gap:10px}
+  .article h2::before{content:'';width:4px;height:20px;border-radius:3px;
+    background:var(--c,var(--accent))}
+  .article h3{font-size:18px;font-weight:600;color:var(--fg);margin:30px 0 10px}
+  .article ul,.article ol{margin:16px 0 16px 22px}
+  .article li{margin:7px 0}
+  .article li::marker{color:var(--accent)}
+  .article blockquote{margin:22px 0;padding:4px 18px;
+    border-left:3px solid var(--accent-2);color:var(--fg-dim);font-style:italic}
+  .article hr{border:none;height:1px;background:var(--border);margin:34px 0}
+  .article img{max-width:100%;border-radius:12px;border:1px solid var(--border)}
+  .article code{font-family:'JetBrains Mono',monospace;font-size:.85em;
+    background:var(--tag-bg);padding:2px 6px;border-radius:5px;color:var(--accent-2)}
+  .article pre{position:relative;font-family:'JetBrains Mono',monospace;
+    background:var(--surface-2);border:1px solid var(--border);padding:18px 20px;
+    border-radius:13px;overflow-x:auto;margin:20px 0;font-size:13px;line-height:1.65}
+  .article pre code{background:transparent;padding:0;color:var(--fg);font-size:13px}
+  .copy-btn{position:absolute;top:9px;right:9px;font-family:'JetBrains Mono',monospace;
+    font-size:11px;padding:4px 9px;border:1px solid var(--border);border-radius:7px;
+    background:var(--surface);color:var(--fg-dim);cursor:pointer;opacity:0;
+    transition:opacity .15s,color .15s,border-color .15s}
+  .article pre:hover .copy-btn,.copy-btn:focus{opacity:1}
+  .copy-btn:hover{color:var(--accent);border-color:var(--accent)}
+  .copy-btn.done{color:var(--accent);border-color:var(--accent)}
+
+  /* ---- prev / next ---- */
+  .prevnext{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:52px}
+  .pn{display:flex;flex-direction:column;gap:5px;padding:16px 18px;
+    border:1px solid var(--border);border-radius:14px;background:var(--surface);
+    box-shadow:var(--shadow-sm);transition:transform .16s,box-shadow .16s,border-color .16s}
+  .pn:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--accent)}
+  .pn.next{text-align:right}
+  .pn .lbl{font-family:'JetBrains Mono',monospace;font-size:11px;
+    text-transform:uppercase;letter-spacing:.08em;color:var(--fg-soft)}
+  .pn .pn-title{font-size:14px;font-weight:600;color:var(--fg);line-height:1.4}
+  .pn.disabled{opacity:.4;pointer-events:none}
+
+  .back-link{display:inline-flex;align-items:center;gap:7px;margin-top:34px;
+    font-size:14px;color:var(--fg-dim)}
+  .back-link:hover{color:var(--accent)}
+
+  @media(max-width:560px){
+    .reader{padding:34px 20px 64px}
+    .post-head{gap:13px}
+    .post-head .t-icon{width:46px;height:46px;flex-basis:46px;font-size:24px}
+    .prevnext{grid-template-columns:1fr}
+    .pn.next{text-align:left}
+  }
 </style>
 </head>
 <body>
-  <header>
-    <a class="brand" href="./index.html">dev<span class="dot">.</span>journal</a>
-    <div class="header-right">
-      <button class="btn" id="randomBtn">🎲 Random</button>
-      <button class="btn" id="themeBtn">Toggle theme</button>
-    </div>
-  </header>
-  <main>
-    <div class="crumbs"><a href="./index.html">~/journal</a> / <a href="./topic.html?t=observability" id="bcTopic">observability</a> / <span id="bcSlug"></span></div>
-    <div class="header-row">
-      <div class="post-icon" id="postIcon">📡</div>
-      <h1 id="title"></h1>
-    </div>
-    <p class="post-meta"><span id="date"></span> · <span id="read"></span> min read · by Soumendra</p>
-    <div class="pills" id="pills"></div>
-    <article id="body"></article>
-    <div class="footer-nav">
-      <a href="./index.html">← All TILs</a>
-      <a href="https://github.com/soumendrak/til" target="_blank" rel="noreferrer">Edit on GitHub ↗</a>
-    </div>
-  </main>
+<div class="progress" id="progress"></div>
+<header class="topbar">
+  <a class="brand" href="./index.html">dev<span class="dot">.</span>journal</a>
+  <div class="topbar-right">
+    <button class="btn" id="randomBtn">🎲 Random</button>
+    <button class="theme-toggle" data-theme-toggle>
+      <span data-theme-label>Theme</span><span data-theme-icon>◐</span>
+    </button>
+  </div>
+</header>
+
+<div class="reader">
+  <nav class="crumbs">
+    <a href="./index.html">~/journal</a>
+    <span class="sep">/</span>
+    <a id="bcTopic" href="#">topic</a>
+    <span class="sep">/</span>
+    <span id="bcSlug"></span>
+  </nav>
+
+  <div class="post-head">
+    <span class="t-icon" id="postIcon">📝</span>
+    <h1 id="title"></h1>
+  </div>
+  <div class="post-meta">
+    <span id="date"></span>
+    <span class="sep">·</span>
+    <span><span id="read"></span> min read</span>
+    <span class="sep">·</span>
+    <span>by <a class="namelink" href="https://www.soumendrak.com" target="_blank" rel="noreferrer">Soumendra Kumar Sahoo</a></span>
+  </div>
+  <div class="post-pills pills" id="pills"></div>
+  <div class="rule" id="rule"></div>
+
+  <article class="article" id="body"></article>
+
+  <div class="prevnext" id="prevnext"></div>
+  <a class="back-link" href="./index.html">← Back to all entries</a>
+
+  <footer class="page-foot">
+    <span>Written by <a class="namelink" href="https://www.soumendrak.com" target="_blank" rel="noreferrer">Soumendra Kumar Sahoo</a></span>
+    <span class="sep">·</span>
+    <a href="https://www.soumendrak.com" target="_blank" rel="noreferrer">soumendrak.com ↗</a>
+    <span class="sep">·</span>
+    <a href="https://github.com/soumendrak/til" target="_blank" rel="noreferrer">Edit on GitHub ↗</a>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script src="./data.js"></script>
+<script src="./app.js"></script>
 <script>
-  var TOPIC_EMOJI={python:'🐍',llm:'🤖',observability:'📡',otel:'📡',signoz:'📊',docker:'🐳',kubernetes:'☸',ci:'⚙️','github-actions':'⚙️',typescript:'🧩',rust:'🦀',wasm:'⚡',debug:'🪲',async:'⏱',linux:'🐧',git:'🌿',cli:'⌨'};
-  function emoji(tags){for(var i=0;i<tags.length;i++)if(TOPIC_EMOJI[tags[i]])return TOPIC_EMOJI[tags[i]];return '📝';}
-  document.getElementById('themeBtn').onclick=function(){document.documentElement.classList.toggle('dark');localStorage.setItem('til-theme-c',document.documentElement.classList.contains('dark')?'dark':'light');};
-  document.getElementById('randomBtn').onclick=function(){var t=TILS[Math.floor(Math.random()*TILS.length)];location.href='./til.html?id='+t.slug;};
-  var id=new URLSearchParams(location.search).get('id')||'otel-llm-agents';
-  var t=TILS.find(function(x){return x.slug===id})||TILS[0];
-  document.title=t.title+' — Dev Journal';
-  document.getElementById('title').textContent=t.title;
-  document.getElementById('date').textContent=t.date;
-  document.getElementById('read').textContent=t.read;
-  document.getElementById('postIcon').textContent=emoji(t.tags);
-  document.getElementById('bcSlug').textContent=t.slug;
-  document.getElementById('bcTopic').textContent=t.tags[0];
-  document.getElementById('bcTopic').href='./topic.html?t='+t.tags[0];
-  document.getElementById('pills').innerHTML=t.tags.map(function(x){return '<a class="pill" href="./topic.html?t='+x+'">#'+x+'</a>'}).join('');
-  if(t.content){document.getElementById('body').innerHTML=t.content}
+  var TILS = (window.TILS || []).slice().sort(function(a,b){
+    return (b.date||'').localeCompare(a.date||'');
+  });
+
+  TIL.initTheme();
+  document.getElementById('randomBtn').onclick=function(){
+    if(!TILS.length)return;
+    var r=TILS[Math.floor(Math.random()*TILS.length)];
+    location.href='./til.html?id='+r.slug;
+  };
+
+  var id=new URLSearchParams(location.search).get('id');
+  var idx=Math.max(0,TILS.findIndex(function(x){return x.slug===id}));
+  var t=TILS[idx]||TILS[0];
+
+  if(!t){
+    document.getElementById('title').textContent='No entries yet';
+    document.getElementById('body').innerHTML='<p>This journal is empty for now — check back soon.</p>';
+  } else {
+    var c=TIL.color((t.tags&&t.tags[0])||'note');
+    document.documentElement.style.setProperty('--c',c);
+    document.title=t.title+' — Dev Journal';
+    document.getElementById('title').textContent=t.title;
+    document.getElementById('date').textContent=t.date;
+    document.getElementById('read').textContent=t.read;
+    document.getElementById('postIcon').textContent=TIL.emoji(t.tags);
+    document.getElementById('postIcon').style.setProperty('--c',c);
+    document.getElementById('bcSlug').textContent=t.slug;
+    var primary=(t.tags&&t.tags[0])||'note';
+    var bcTopic=document.getElementById('bcTopic');
+    bcTopic.textContent='#'+primary;
+    bcTopic.href='./topic.html?t='+encodeURIComponent(primary);
+    document.getElementById('pills').innerHTML=(t.tags||[]).map(function(x){
+      return '<a class="pill" style="--c:'+TIL.color(x)+'" href="./topic.html?t='+
+        encodeURIComponent(x)+'"><span class="swatch"></span>#'+x+'</a>';
+    }).join('');
+
+    var body=document.getElementById('body');
+    body.innerHTML=t.content||('<p>'+(t.preview||'')+'</p>');
+
+    /* syntax highlight + copy buttons */
+    body.querySelectorAll('pre code').forEach(function(block){
+      try{ if(window.hljs) hljs.highlightElement(block); }catch(e){}
+    });
+    body.querySelectorAll('pre').forEach(function(pre){
+      var btn=document.createElement('button');
+      btn.className='copy-btn';btn.type='button';btn.textContent='copy';
+      btn.addEventListener('click',function(){
+        var code=pre.querySelector('code');
+        navigator.clipboard.writeText((code||pre).innerText).then(function(){
+          btn.textContent='copied';btn.classList.add('done');
+          setTimeout(function(){btn.textContent='copy';btn.classList.remove('done');},1600);
+        });
+      });
+      pre.appendChild(btn);
+    });
+
+    /* prev (newer) / next (older) — TILS is newest-first */
+    var newer=TILS[idx-1], older=TILS[idx+1];
+    document.getElementById('prevnext').innerHTML=
+      pnCard('newer',newer)+pnCard('older',older);
+  }
+
+  function pnCard(kind,entry){
+    var isNext=kind==='older';
+    if(!entry){
+      return '<span class="pn '+(isNext?'next ':'')+'disabled">'+
+        '<span class="lbl">'+(isNext?'Older →':'← Newer')+'</span>'+
+        '<span class="pn-title">'+(isNext?'Nothing older':'Nothing newer')+'</span></span>';
+    }
+    return '<a class="pn '+(isNext?'next':'')+'" href="./til.html?id='+entry.slug+'">'+
+      '<span class="lbl">'+(isNext?'Older →':'← Newer')+'</span>'+
+      '<span class="pn-title">'+entry.title+'</span></a>';
+  }
+
+  /* reading progress */
+  var bar=document.getElementById('progress');
+  function updateProgress(){
+    var h=document.documentElement;
+    var max=h.scrollHeight-h.clientHeight;
+    bar.style.width=(max>0?(h.scrollTop/max)*100:0)+'%';
+  }
+  document.addEventListener('scroll',updateProgress,{passive:true});
+  updateProgress();
 </script>
-</body></html>
+</body>
+</html>
