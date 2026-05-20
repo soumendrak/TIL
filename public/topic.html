@@ -111,21 +111,21 @@
     document.getElementById('listHead').style.display='none';
     listEl.className='';
     listEl.innerHTML='<div class="empty"><span class="big">🪴</span>'+
-      'No entries filed under #'+topic+' yet.<br>'+
+      'No entries filed under #'+TIL.esc(topic)+' yet.<br>'+
       '<a href="./index.html" style="color:var(--accent)">Browse everything →</a></div>';
   } else {
     listEl.innerHTML=entries.map(function(t){
       var tc=TIL.color((t.tags&&t.tags[0])||'note');
       var primary=(t.tags&&t.tags[0])||'note';
-      return '<a class="item" data-reveal style="--c:'+tc+'" href="./til.html?id='+t.slug+'">'+
+      return '<a class="item" data-reveal style="--c:'+tc+'" href="./til.html?id='+encodeURIComponent(t.slug)+'">'+
         '<span class="t-icon">'+TIL.emoji(t.tags)+'</span>'+
         '<span class="entry-body">'+
-          '<span class="entry-meta">'+t.date+' &nbsp;·&nbsp; '+t.read+
-            ' min &nbsp;·&nbsp; <span class="tag">#'+primary+'</span></span>'+
-          '<span class="entry-title">'+t.title+'</span>'+
-          '<span class="entry-preview">'+(t.preview||'')+'</span>'+
+          '<span class="entry-meta">'+TIL.esc(t.date||'')+' &nbsp;·&nbsp; '+TIL.esc(t.read||'1')+
+            ' min &nbsp;·&nbsp; <span class="tag">#'+TIL.esc(primary)+'</span></span>'+
+          '<span class="entry-title">'+TIL.esc(t.title||t.slug||'Untitled')+'</span>'+
+          '<span class="entry-preview">'+TIL.esc(t.preview||'')+'</span>'+
           '<span class="entry-tags">'+(t.tags||[]).slice(0,4).map(function(x){
-            return '<span>#'+x+'</span>'}).join('')+'</span>'+
+            return '<span>#'+TIL.esc(x)+'</span>'}).join('')+'</span>'+
         '</span>'+
         '<span class="item-arrow">→</span>'+
       '</a>';
@@ -143,7 +143,7 @@
     document.getElementById('relatedWrap').style.display='block';
     document.getElementById('related').innerHTML=relKeys.map(function(x){
       return '<a class="pill" style="--c:'+TIL.color(x)+'" href="./topic.html?t='+
-        encodeURIComponent(x)+'"><span class="swatch"></span>#'+x+'</a>';
+        encodeURIComponent(x)+'"><span class="swatch"></span>#'+TIL.esc(x)+'</a>';
     }).join('');
   }
 </script>

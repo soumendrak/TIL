@@ -161,11 +161,12 @@
   var feedEl=document.getElementById('feed'), countEl=document.getElementById('count');
 
   function tagsHtml(t){
-    return (t.tags||[]).slice(0,4).map(function(x){return '<span>#'+x+'</span>'}).join('');
+    return (t.tags||[]).slice(0,4).map(function(x){return '<span>#'+TIL.esc(x)+'</span>'}).join('');
   }
   function metaHtml(t){
     var primary=(t.tags&&t.tags[0])||'note';
-    return t.date+' &nbsp;·&nbsp; '+t.read+' min &nbsp;·&nbsp; <span class="tag">#'+primary+'</span>';
+    return TIL.esc(t.date||'')+' &nbsp;·&nbsp; '+TIL.esc(t.read||'1')+
+      ' min &nbsp;·&nbsp; <span class="tag">#'+TIL.esc(primary)+'</span>';
   }
 
   function render(){
@@ -175,7 +176,7 @@
       return (t.title+' '+(t.preview||'')+' '+(t.tags||[]).join(' ')).toLowerCase().indexOf(q)>=0;
     });
     countEl.innerHTML='<strong>'+items.length+'</strong> '+(items.length===1?'entry':'entries')+
-      (q?' matching “'+q+'”':' — newest first');
+      (q?' matching “'+TIL.esc(q)+'”':' — newest first');
     if(!items.length){
       feedEl.className='';
       feedEl.innerHTML='<div class="empty"><span class="big">🔍</span>Nothing matches that search yet.<br>Try a broader term or clear the box.</div>';
@@ -185,12 +186,12 @@
       feedEl.className='list';
       feedEl.innerHTML=items.map(function(t){
         var c=TIL.color((t.tags&&t.tags[0])||'note');
-        return '<a class="item" data-reveal style="--c:'+c+'" href="./til.html?id='+t.slug+'">'+
+        return '<a class="item" data-reveal style="--c:'+c+'" href="./til.html?id='+encodeURIComponent(t.slug)+'">'+
           '<span class="t-icon">'+TIL.emoji(t.tags)+'</span>'+
           '<span class="entry-body">'+
             '<span class="entry-meta">'+metaHtml(t)+'</span>'+
-            '<span class="entry-title">'+t.title+'</span>'+
-            '<span class="entry-preview">'+(t.preview||'')+'</span>'+
+            '<span class="entry-title">'+TIL.esc(t.title||t.slug||'Untitled')+'</span>'+
+            '<span class="entry-preview">'+TIL.esc(t.preview||'')+'</span>'+
             '<span class="entry-tags">'+tagsHtml(t)+'</span>'+
           '</span>'+
           '<span class="item-arrow">→</span>'+
@@ -200,11 +201,11 @@
       feedEl.className='grid';
       feedEl.innerHTML=items.map(function(t){
         var c=TIL.color((t.tags&&t.tags[0])||'note');
-        return '<a class="card" data-reveal style="--c:'+c+'" href="./til.html?id='+t.slug+'">'+
+        return '<a class="card" data-reveal style="--c:'+c+'" href="./til.html?id='+encodeURIComponent(t.slug)+'">'+
           '<span class="t-icon">'+TIL.emoji(t.tags)+'</span>'+
           '<span class="entry-meta">'+metaHtml(t)+'</span>'+
-          '<span class="entry-title">'+t.title+'</span>'+
-          '<span class="entry-preview">'+(t.preview||'')+'</span>'+
+          '<span class="entry-title">'+TIL.esc(t.title||t.slug||'Untitled')+'</span>'+
+          '<span class="entry-preview">'+TIL.esc(t.preview||'')+'</span>'+
           '<span class="entry-tags">'+tagsHtml(t)+'</span>'+
         '</a>';
       }).join('');

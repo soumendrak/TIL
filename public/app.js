@@ -11,6 +11,14 @@ window.TIL = (function () {
     security:'🔐', performance:'🚀', testing:'🧪', web:'🌐', networking:'🛰'
   };
 
+  /* escape text before it goes into an innerHTML string */
+  var ESC_MAP = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+  function esc(value) {
+    return String(value == null ? '' : value).replace(/[&<>"']/g, function (ch) {
+      return ESC_MAP[ch];
+    });
+  }
+
   function emoji(tags) {
     tags = tags || [];
     for (var i = 0; i < tags.length; i++) {
@@ -71,5 +79,5 @@ window.TIL = (function () {
     });
   }
 
-  return { emoji: emoji, hue: hue, color: color, initTheme: initTheme, reveal: reveal };
+  return { esc: esc, emoji: emoji, hue: hue, color: color, initTheme: initTheme, reveal: reveal };
 })();

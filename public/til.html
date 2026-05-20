@@ -181,7 +181,7 @@
     bcTopic.href='./topic.html?t='+encodeURIComponent(primary);
     document.getElementById('pills').innerHTML=(t.tags||[]).map(function(x){
       return '<a class="pill" style="--c:'+TIL.color(x)+'" href="./topic.html?t='+
-        encodeURIComponent(x)+'"><span class="swatch"></span>#'+x+'</a>';
+        encodeURIComponent(x)+'"><span class="swatch"></span>#'+TIL.esc(x)+'</a>';
     }).join('');
 
     var body=document.getElementById('body');
@@ -217,9 +217,9 @@
         '<span class="lbl">'+(isNext?'Older →':'← Newer')+'</span>'+
         '<span class="pn-title">'+(isNext?'Nothing older':'Nothing newer')+'</span></span>';
     }
-    return '<a class="pn '+(isNext?'next':'')+'" href="./til.html?id='+entry.slug+'">'+
+    return '<a class="pn '+(isNext?'next':'')+'" href="./til.html?id='+encodeURIComponent(entry.slug)+'">'+
       '<span class="lbl">'+(isNext?'Older →':'← Newer')+'</span>'+
-      '<span class="pn-title">'+entry.title+'</span></a>';
+      '<span class="pn-title">'+TIL.esc(entry.title||entry.slug||'Untitled')+'</span></a>';
   }
 
   /* reading progress */
