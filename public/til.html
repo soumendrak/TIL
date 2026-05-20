@@ -57,31 +57,7 @@
     </div>
     <p class="post-meta"><span id="date"></span> · <span id="read"></span> min read · by Soumendra</p>
     <div class="pills" id="pills"></div>
-    <article id="body">
-      <p>I've been wiring SigNoz into our agent runtime this week. Most LLM "observability" demos online treat a single chat call as the unit of work, which doesn't survive contact with a real agent loop — tools nest, retries fan out, and the wall-clock latency you actually care about is the one the human waited for.</p>
-      <h2>The trick</h2>
-      <p>OpenTelemetry's <code>gen_ai.*</code> semantic conventions give you a vocabulary that SigNoz, Arize, and Langfuse all understand out of the box. Wrap the model call in one span and each tool call in a child span; let the SDK propagate context:</p>
-      <pre><code>with tracer.start_as_current_span(
-    "openai.chat",
-    attributes={
-        "gen_ai.system": "openai",
-        "gen_ai.request.model": "gpt-4o-mini",
-        "gen_ai.usage.input_tokens": prompt_tokens,
-    },
-) as span:
-    resp = client.chat.completions.create(...)
-    span.set_attribute(
-        "gen_ai.usage.output_tokens",
-        resp.usage.completion_tokens,
-    )</code></pre>
-      <h2>What you get</h2>
-      <ul>
-        <li>A real waterfall in SigNoz — tool calls render under their parent.</li>
-        <li>Token usage as a first-class metric you can chart per model.</li>
-        <li>Error spans that capture the prompt, not just a 500.</li>
-      </ul>
-      <p>The whole change was ~40 lines. Cheapest observability win I've had this quarter.</p>
-    </article>
+    <article id="body"></article>
     <div class="footer-nav">
       <a href="./index.html">← All TILs</a>
       <a href="https://github.com/soumendrak/til" target="_blank" rel="noreferrer">Edit on GitHub ↗</a>
@@ -104,5 +80,6 @@
   document.getElementById('bcTopic').textContent=t.tags[0];
   document.getElementById('bcTopic').href='./topic.html?t='+t.tags[0];
   document.getElementById('pills').innerHTML=t.tags.map(function(x){return '<a class="pill" href="./topic.html?t='+x+'">#'+x+'</a>'}).join('');
+  if(t.content){document.getElementById('body').innerHTML=t.content}
 </script>
 </body></html>
