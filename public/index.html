@@ -51,7 +51,6 @@
   .cloud a .n{font-family:'JetBrains Mono',monospace;font-size:.78em;color:var(--fg-soft)}
   .cloud a.s1{font-size:12.5px}.cloud a.s2{font-size:14px}
   .cloud a.s3{font-size:16px;font-weight:600}.cloud a.s4{font-size:19px;font-weight:600}
-  .side-spacer{margin-top:auto;display:flex;flex-direction:column;gap:14px}
 
   .feed{padding:32px 56px 76px;min-width:0}
   .toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:22px}
@@ -72,8 +71,8 @@
     .hero{padding:48px 26px 36px}.hero-theme{right:26px}
     .layout{grid-template-columns:1fr}
     .side{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
-    .side-spacer{margin-top:18px}
     .feed{padding:26px 22px 60px}
+    .site-foot{padding:22px 22px}
   }
 </style>
 </head>
@@ -101,14 +100,6 @@
       <h4 class="side-h">Browse topics</h4>
       <div class="cloud" id="cloud"></div>
     </div>
-    <div class="side-spacer">
-      <div class="site-foot">
-        <a href="https://www.soumendrak.com" target="_blank" rel="noreferrer">soumendrak.com ↗</a>
-        <a href="https://github.com/soumendrak/til" target="_blank" rel="noreferrer">GitHub ↗</a>
-        <a href="/feed.atom">RSS / Atom feed ↗</a>
-        <span>© 2026 <a class="namelink" href="https://www.soumendrak.com" target="_blank" rel="noreferrer">Soumendra Kumar Sahoo</a></span>
-      </div>
-    </div>
   </aside>
 
   <main class="feed">
@@ -127,6 +118,12 @@
     <p class="count" id="count"></p>
     <div id="feed"></div>
   </main>
+
+  <footer class="site-foot">
+    <a href="https://github.com/soumendrak/til" target="_blank" rel="noreferrer">GitHub ↗</a>
+    <a href="/feed.atom">RSS / Atom feed ↗</a>
+    <span>© 2026 <a class="namelink" href="https://www.soumendrak.com" target="_blank" rel="noreferrer">Soumendra Kumar Sahoo</a></span>
+  </footer>
 </div>
 
 <script src="./data.js"></script>
