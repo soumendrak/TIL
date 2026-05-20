@@ -1,0 +1,18 @@
+# Cloudflare Pages headers.
+# The HTML pages, app.js, style.css and data.js change together on a
+# deploy. Tell the CDN to always revalidate them so a fresh page can
+# never load against a stale cached script or stylesheet.
+/
+  Cache-Control: no-cache
+/index.html
+  Cache-Control: no-cache
+/til.html
+  Cache-Control: no-cache
+/topic.html
+  Cache-Control: no-cache
+/app.js
+  Cache-Control: no-cache
+/style.css
+  Cache-Control: no-cache
+/data.js
+  Cache-Control: no-cache
