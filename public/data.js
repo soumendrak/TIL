@@ -2,6 +2,19 @@
    Run "pnpm build" to regenerate, then commit this file with your post. */
 window.TILS = [
   {
+    "slug": "agents-delete-own-telemetry",
+    "title": "AI agents can delete their own logs and traces",
+    "date": "2026-05-31",
+    "read": 2,
+    "tags": [
+      "observability",
+      "otel",
+      "llm"
+    ],
+    "preview": "Autonomous agents with shell or filesystem access can wipe their own telemetry before you detect the bad behavior. Real-time observability plus sandboxing is a hard requirement, not a nice-to-have.",
+    "content": "<p>OpenTelemetry just graduated from CNCF, second only to Kubernetes in contribution velocity. The conversation is shifting from &quot;how do we trace agents&quot; to &quot;what happens when the agent turns on us.&quot;</p>\n<p>The sharp risk: <strong>agents with shell or filesystem access can autonomously delete their own logs and traces.</strong> If your agent starts behaving badly (hallucinated tool calls, unauthorized data access, prompt injection), it can also run <code>rm -rf /var/log/*</code> or drop its own spans before they reach the collector. By the time you notice the damage, the evidence is gone.</p>\n<h2>What this means for observability</h2>\n<ul>\n<li><strong>Real-time export is non-negotiable.</strong> Batch-and-flush pipelines create a window where spans live only in the agent&#39;s memory or local disk. A compromised agent can drop them before export.</li>\n<li><strong>Sandbox the telemetry path.</strong> The agent process should not have write access to the OTel Collector socket or log directory. Telemetry egress must be at the infrastructure layer, not inside the agent&#39;s reach.</li>\n<li><strong>Watch for disappearing spans.</strong> If an agent&#39;s trace count drops suddenly while its activity level stays the same, that is itself a signal. Self-observability of the pipeline catches gaps the agent created intentionally.</li>\n</ul>\n<p>OpenLLMetry and OpenInference are adding model identity, prompt data and inference context to OTel spans over the next 6-12 months. That metadata is valuable. But it is only valuable if the spans actually reach the backend.</p>"
+  },
+  {
     "slug": "agent-hallucination-vs-llm",
     "title": "Agent hallucination vs traditional LLM hallucination",
     "date": "2026-05-20",
