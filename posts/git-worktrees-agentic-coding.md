@@ -43,7 +43,7 @@ git worktree prune                 # clean metadata
 
 ## Watch & learn
 
-- [Git worktree — by ThePrimeagen](https://www.youtube.com/watch?v=2uEqYw-N8uE) — 12 min, practical demo with real use cases
-- [Git Worktrees Are Amazing! — by Nick Taylor (Swyx)](https://www.youtube.com/watch?v=QApJtTENy-U) — 8 min, clear explanation of why you'd use them
-- [Git worktree tutorial — by Learn Git](https://www.youtube.com/watch?v=9tuqEFvmmoI) — 15 min, deep dive into every flag and edge case
-- [How to use git worktree — by Fireship](https://www.youtube.com/watch?v=9k5ddffuBDM) — 100 seconds, quick intro
+- [The best and most unknown Git feature — by ThePrimeagen](https://www.youtube.com/watch?v=2uEqYw-N8uE) — 8 min, practical demo of why worktrees are game-changing
+- [learn git worktrees in under 5 minutes — by bashbunni](https://www.youtube.com/watch?v=8vsRb2mTBA8) — 3 min, fast intro with real workflow
+- [Git Tutorial #39: how to use git worktree — by GitKraken](https://www.youtube.com/watch?v=s4BTvj1ZVLM) — 11 min, thorough walkthrough of every command
+- [Git Worktrees Tutorial #4: Worktree-First Approach — by Net Ninja](https://www.youtube.com/watch?v=O-aBwXN200s) — 8 min, how to build a worktree-first development habit
