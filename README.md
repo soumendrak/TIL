@@ -47,8 +47,8 @@ data file that the static pages read — the site never touches Markdown directl
 ```mermaid
 graph TD
   subgraph A["✍️  Authoring"]
-    P1["posts/agent-hallucination-vs-llm.md"]
-    P2["posts/your-next-til.md"]
+    P1["posts/*.md"]
+    P2["more posts..."]
   end
   subgraph B["⚙️  Build · scripts/build.mjs"]
     V["Validate front matter"]
