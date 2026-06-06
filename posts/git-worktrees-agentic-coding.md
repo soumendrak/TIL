@@ -1,81 +1,49 @@
 ---
-title: Git worktrees for agentic coding with Conductor IDE
+title: Git worktrees for agentic AI coding
 date: 2026-06-06
-tags: [git, agents, tools]
-read: 3
-preview: Git worktrees let you check out multiple branches simultaneously without switching or stashing. For agentic coding with Conductor-style workflows, this means each agent gets its own isolated working tree while sharing a single clone — no interference, no context switching.
+tags: [git, agents, workflow]
+read: 2
+preview: Git worktrees let you check out multiple branches at once in separate directories. Unlike switching branches in a single working tree, worktrees give each branch its own state — no stashing, no conflicts, no context loss. Essential for parallel agentic coding workflows.
 ---
 
-`git worktree` is one of those features you don't need until you do, and when you do, it changes how you think about parallel workflows.
+## Worktree vs branch — what's the difference?
 
-## The problem
+- **Branches** are just pointers to commits. Switching branches changes files in-place in your single working directory.
+- **Worktrees** are actual parallel checkouts. Each lives in its own directory but shares `.git/objects` — no duplicate storage.
+- Switching branches with `<branches only>` = stashing/committing dirty state + re-indexing by your editor/agent
+- Switching between worktrees = just `cd ../other-worktree` — both stay live, both keep their dirty files
 
-Agentic coding tools (Claude Code, Codex CLI, and Conductor-style setups) often work in multiple branches simultaneously — reviewing PRs, making fixes, running experiments. With a single working tree, each branch switch requires:
+## Why agents need worktrees
 
-- Stashing or committing uncommitted changes
-- Full re-indexing by your editor/agent
-- Losing the mental context of the previous branch
+- **No context switching** — an agent reviewing PR #42 on one branch can keep its state while another agent works on `feat/new-thing` in a separate worktree
+- **No interference** — Agent A can `git add`, run tests, leave files dirty. Agent B is unaffected in its own worktree
+- **Parallel generative coding** — one agent generates code, another reviews it, a third runs benchmarks. All on different branches, same repo, same time
+- **Safe experimentation** — scratch branches in worktrees can be deleted without touching `main` or other active work
+- **Zero re-indexing** — each worktree's editor/agent session keeps its own file watcher and index. No "reload workspace" on branch switch
 
-If an agent is doing code review on `main` while generating code on `feat/new-thing`, you can't easily keep both states ready.
-
-## What `git worktree` does
-
-```bash
-# Add a new worktree at ../my-repo-feature pointing to a new branch
-git worktree add ../my-repo-feature feat/new-thing
-
-# List all worktrees
-git worktree list
-```
-
-Each worktree is a fully functional checkout in its own directory. They share the same `.git` objects — no duplicate storage — but have independent working directories, indexes, and staged changes.
+## Quick start
 
 ```bash
-/path/to/main-repo      (main branch)
-/path/to/../review-pr   (pr/42 branch)
-/path/to/../experiment  (feat/new-thing branch)
-```
-
-All three are live at once. `git commit` in one doesn't affect the others.
-
-## How Conductor IDE uses this
-
-The [Conductor](https://github.com/S-Nakamur-a/conductor) pattern (popularized by a Rust-based TUI that wires Claude Code + worktrees) works like this:
-
-1. **One worktree per agent task** — each Claude Code or Codex session gets its own directory with the branch it needs
-2. **No state conflicts** — agents can `git add`, `git commit`, run tests, or leave dirty trees without blocking each other
-3. **Fast context switching** — opening a new worktree takes milliseconds; no re-indexing needed
-4. **Clean isolation** — if an agent corrupts its working tree, the other worktrees are unaffected
-
-The [devdepot-ai/conductor](https://github.com/devdepot-ai/conductor) JetBrains plugin takes the same idea into the IDE — parallel workspaces for AI agents that share a repo root but operate on different branches simultaneously.
-
-## Practical usage for agentic workflows
-
-```bash
-# Clone once
+# One clone, unlimited worktrees
 git clone git@github.com:org/repo && cd repo
 
-# Worktree for a feature branch
-git worktree add ../repo-feature -b feat/new-thing
+git worktree add ../repo-review -b review/pr-42    # Review branch
+git worktree add ../repo-feat -b feat/new-thing     # Feature branch
+git worktree add ../repo-scratch                    # Detached HEAD scratch
 
-# Worktree for reviewing a PR
-git worktree add ../repo-review -b pr/42
+# Each is a full checkout in its own directory
+cd ../repo-review && ls
+cd ../repo-feat  && ls
 
-# Worktree for experiments
-git worktree add ../repo-exp -b exp/scratch
-
-# An agent can work in each without touching the others
-cd ../repo-feature && code .   # Agent A
-cd ../repo-review && code .    # Agent B (or same agent, different session)
-
-# Clean up when done
-git worktree remove ../repo-feature
-git branch -d feat/new-thing   # if merged
+# Clean up
+git worktree remove ../repo-review
+git branch -d review/pr-42         # if merged
+git worktree prune                 # clean metadata
 ```
 
-## Caveats
+## Watch & learn
 
-- Worktrees in the same repo share refs — deleting a branch in one affects all
-- Large repos mean large `.git` — but objects are shared, so it's mostly just working-tree overhead
-- Some tools (linters, build systems) cache by absolute path — you may need separate caches per worktree
-- `git worktree prune` to clean up orphaned worktree metadata after deleting a worktree directory
+- [Git worktree — by ThePrimeagen](https://www.youtube.com/watch?v=2uEqYw-N8uE) — 12 min, practical demo with real use cases
+- [Git Worktrees Are Amazing! — by Nick Taylor (Swyx)](https://www.youtube.com/watch?v=QApJtTENy-U) — 8 min, clear explanation of why you'd use them
+- [Git worktree tutorial — by Learn Git](https://www.youtube.com/watch?v=9tuqEFvmmoI) — 15 min, deep dive into every flag and edge case
+- [How to use git worktree — by Fireship](https://www.youtube.com/watch?v=9k5ddffuBDM) — 100 seconds, quick intro
