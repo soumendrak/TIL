@@ -2,6 +2,19 @@
    Run "pnpm build" to regenerate, then commit this file with your post. */
 window.TILS = [
   {
+    "slug": "git-worktrees-agentic-coding",
+    "title": "Git worktrees for agentic AI coding",
+    "date": "2026-06-06",
+    "read": 2,
+    "tags": [
+      "git",
+      "agents",
+      "workflow"
+    ],
+    "preview": "Git worktrees let you check out multiple branches at once in separate directories. Unlike switching branches in a single working tree, worktrees give each branch its own state — no stashing, no conflicts, no context loss. Essential for parallel agentic coding workflows.",
+    "content": "<h2>Worktree vs branch — what&#39;s the difference?</h2>\n<ul>\n<li><strong>Branches</strong> are just pointers to commits. Switching branches changes files in-place in your single working directory.</li>\n<li><strong>Worktrees</strong> are actual parallel checkouts. Each lives in its own directory but shares <code>.git/objects</code> — no duplicate storage.</li>\n<li>Switching branches with <code>&lt;branches only&gt;</code> = stashing/committing dirty state + re-indexing by your editor/agent</li>\n<li>Switching between worktrees = just <code>cd ../other-worktree</code> — both stay live, both keep their dirty files</li>\n</ul>\n<h2>Why agents need worktrees</h2>\n<ul>\n<li><strong>No context switching</strong> — an agent reviewing PR #42 on one branch can keep its state while another agent works on <code>feat/new-thing</code> in a separate worktree</li>\n<li><strong>No interference</strong> — Agent A can <code>git add</code>, run tests, leave files dirty. Agent B is unaffected in its own worktree</li>\n<li><strong>Parallel generative coding</strong> — one agent generates code, another reviews it, a third runs benchmarks. All on different branches, same repo, same time</li>\n<li><strong>Safe experimentation</strong> — scratch branches in worktrees can be deleted without touching <code>main</code> or other active work</li>\n<li><strong>Zero re-indexing</strong> — each worktree&#39;s editor/agent session keeps its own file watcher and index. No &quot;reload workspace&quot; on branch switch</li>\n</ul>\n<h2>Quick start</h2>\n<pre><code class=\"language-bash\"># One clone, unlimited worktrees\ngit clone git@github.com:org/repo &amp;&amp; cd repo\n\ngit worktree add ../repo-review -b review/pr-42    # Review branch\ngit worktree add ../repo-feat -b feat/new-thing     # Feature branch\ngit worktree add ../repo-scratch                    # Detached HEAD scratch\n\n# Each is a full checkout in its own directory\ncd ../repo-review &amp;&amp; ls\ncd ../repo-feat  &amp;&amp; ls\n\n# Clean up\ngit worktree remove ../repo-review\ngit branch -d review/pr-42         # if merged\ngit worktree prune                 # clean metadata\n</code></pre>\n<h2>Watch &amp; learn</h2>\n<ul>\n<li><a href=\"https://www.youtube.com/watch?v=2uEqYw-N8uE\">The best and most unknown Git feature — by ThePrimeagen</a> — 8 min, practical demo of why worktrees are game-changing</li>\n<li><a href=\"https://www.youtube.com/watch?v=8vsRb2mTBA8\">learn git worktrees in under 5 minutes — by bashbunni</a> — 3 min, fast intro with real workflow</li>\n<li><a href=\"https://www.youtube.com/watch?v=s4BTvj1ZVLM\">Git Tutorial #39: how to use git worktree — by GitKraken</a> — 11 min, thorough walkthrough of every command</li>\n<li><a href=\"https://www.youtube.com/watch?v=O-aBwXN200s\">Git Worktrees Tutorial #4: Worktree-First Approach — by Net Ninja</a> — 8 min, how to build a worktree-first development habit</li>\n</ul>"
+  },
+  {
     "slug": "agents-delete-own-telemetry",
     "title": "AI agents can delete their own logs and traces",
     "date": "2026-05-31",
