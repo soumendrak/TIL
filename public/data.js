@@ -2,6 +2,19 @@
    Run "pnpm build" to regenerate, then commit this file with your post. */
 window.TILS = [
   {
+    "slug": "navigator-sendbeacon",
+    "title": "navigator.sendBeacon() — reliable data send on page unload",
+    "date": "2026-06-13",
+    "read": 2,
+    "tags": [
+      "web",
+      "observability",
+      "telemetry"
+    ],
+    "preview": "Before sendBeacon, sending telemetry on page close was unreliable — async fetch got cancelled, sync XHR blocked UX. sendBeacon guarantees the request goes through even on tab close. Essential for any web-based observability pipeline.",
+    "content": "<h2>The problem (before)</h2>\n<p>You want to fire a telemetry ping when the user leaves the page — session duration, scroll depth, last interaction. All the old approaches had flaws:</p>\n<ul>\n<li><strong>Async fetch / XHR</strong> — browser cancels pending requests on unload. ~30% data loss in practice.</li>\n<li><strong>Sync XHR</strong> — blocks the unload. Users feel the lag. Lighthouse penalises it.</li>\n<li><strong>Image pixel hack</strong> — <code>&lt;img src=&quot;/track?data=...&quot;&gt;</code> — works sometimes, GET-only, ugly.</li>\n</ul>\n<pre><code class=\"language-js\">// Before — unreliable, data gets silently dropped\nwindow.addEventListener(&#39;unload&#39;, () =&gt; {\n  fetch(&#39;/api/track&#39;, { data: payload }); // cancelled by browser ⚠️\n});\n</code></pre>\n<h2>The fix (after)</h2>\n<p><code>navigator.sendBeacon()</code> queues the data and the browser commits to delivering it — even after the page is gone.</p>\n<pre><code class=\"language-js\">// After — browser guarantees delivery\ndocument.addEventListener(&#39;visibilitychange&#39;, () =&gt; {\n  if (document.visibilityState === &#39;hidden&#39;) {\n    navigator.sendBeacon(&#39;/api/track&#39;, JSON.stringify(payload));\n  }\n});\n</code></pre>\n<p>POST only, 64KB cap, fire-and-forget. Pair it with <code>visibilitychange</code> (not <code>unload</code>) for mobile coverage.</p>\n<h2>Why it matters for observability</h2>\n<p>If you&#39;re building web-based instrumention — agent dashboards, trace viewers, user analytics — <code>sendBeacon</code> closes a blind spot. Telemetry sent during page teardown was the data you were most likely to lose, and it&#39;s often the most important: the crash, the rage quit, the last interaction before the user left.</p>\n<p>In agent observability specifically: if you have a web UI that displays agent traces, <code>sendBeacon</code> lets you flush user interaction telemetry (which traces they viewed, how long they spent debugging) without worrying about the browser killing the request when they navigate to the next page.</p>"
+  },
+  {
     "slug": "git-worktrees-agentic-coding",
     "title": "Git worktrees for agentic AI coding",
     "date": "2026-06-06",
