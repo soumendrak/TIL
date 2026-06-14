@@ -11,7 +11,7 @@ Short, searchable developer notes on AI observability, infrastructure, and the t
 <br/>
 
 [![Deploy](https://github.com/soumendrak/til/actions/workflows/deploy.yml/badge.svg)](https://github.com/soumendrak/til/actions/workflows/deploy.yml)
-[![Live site](https://img.shields.io/badge/live-til.soumendra.net-5fd0a8?style=flat&logo=cloudflare&logoColor=white)](https://til.soumendra.net)
+[![Live site](https://img.shields.io/badge/live-til.soumendrak.com-5fd0a8?style=flat&logo=cloudflare&logoColor=white)](https://til.soumendrak.com)
 ![Cloudflare Pages](https://img.shields.io/badge/hosted%20on-Cloudflare%20Pages-F38020?style=flat&logo=cloudflare&logoColor=white)
 ![Node](https://img.shields.io/badge/node-%E2%89%A5%2020-5FA04E?style=flat&logo=node.js&logoColor=white)
 ![pnpm](https://img.shields.io/badge/pnpm-managed-F69220?style=flat&logo=pnpm&logoColor=white)
@@ -21,7 +21,7 @@ Short, searchable developer notes on AI observability, infrastructure, and the t
 
 <sub>
 
-[**Live site**](https://til.soumendra.net) · [Write a post](#-writing-a-til) · [Architecture](#-architecture) · [Local development](#-local-development)
+[**Live site**](https://til.soumendrak.com) · [Write a post](#-writing-a-til) · [Architecture](#-architecture) · [Local development](#-local-development)
 
 </sub>
 
@@ -176,7 +176,7 @@ sequenceDiagram
   CI->>CI: pnpm check (validate posts)
   CI->>CI: pnpm build (verify data.js is current)
   CI->>CF: wrangler pages deploy public/
-  CF-->>Dev: til.soumendra.net is live
+  CF-->>Dev: til.soumendrak.com is live
 ```
 
 ## 🧰 Tech stack

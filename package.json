@@ -2,7 +2,7 @@
   "name": "til-soumendra",
   "version": "1.0.0",
   "private": true,
-  "description": "A working journal of things learned — til.soumendra.net",
+  "description": "A working journal of things learned — til.soumendrak.com",
   "type": "module",
   "packageManager": "pnpm@10.33.3",
   "engines": {
