@@ -37,6 +37,8 @@ That broader lifecycle is the point. An agent is not one function call. It is a 
 
 ## The useful mental model
 
-Treat hooks as the agent runtime's nervous system. The agent does the work, but hooks let the platform feel what happened and react.
+Treat hooks as the agent runtime's reflex system, not part of the agent's brain. The agent does the work, but hooks let the platform react automatically when something important happens.
 
-For production agents, hooks should usually live outside the agent's reasoning path. The model should not decide whether telemetry is recorded, whether a policy check runs or whether cleanup happens after failure. The runtime should trigger those automatically.
+A better example than swatting a mosquito is pulling your hand away from a hot pan. You do not explicitly plan the movement. The reflex arc fires before deliberate thought catches up.
+
+Hooks work the same way. The model should not decide whether telemetry is recorded, whether a policy check runs or whether cleanup happens after failure. The runtime should trigger those automatically.
