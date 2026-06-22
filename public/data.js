@@ -2,6 +2,19 @@
    Run "pnpm build" to regenerate, then commit this file with your post. */
 window.TILS = [
   {
+    "slug": "smartphone-llm-interview-cheating",
+    "title": "Smartphone LLM cheating in live coding interviews leaves visible signals",
+    "date": "2026-06-23",
+    "read": 2,
+    "tags": [
+      "llm",
+      "interview",
+      "hiring"
+    ],
+    "preview": "I caught a candidate using a smartphone LLM during a live video coding interview. The giveaway was not one dramatic moment. It was a pattern of small delays, gaze shifts and lighting changes that did not match the shared screen.",
+    "content": "<p>I caught a candidate using a smartphone LLM during a live video coding interview. The giveaway was not one dramatic moment. It was a pattern of small delays, gaze shifts and lighting changes that did not match the shared screen.</p>\n<p>Taken alone, each signal can have an innocent explanation. Together, they formed a clear picture.</p>\n<h2>The pattern</h2>\n<ol>\n<li><strong>Background blur was enabled.</strong> That hides objects behind the candidate, including a phone held below or beside the screen.</li>\n<li><strong>Their eyes moved to more than two places.</strong> During a normal coding round, the main gaze points are the screen and keyboard. Here there was a repeated third point.</li>\n<li><strong>The shared screen stayed still while their face brightness changed.</strong> The code editor did not change, but their face had subtle light shifts when their shoulder moved. That is consistent with holding or adjusting a bright phone near the screen.</li>\n<li><strong>They repeated or simplified the question multiple times.</strong> This bought time to type or speak the prompt into another device.</li>\n<li><strong>They used filler words until the answer arrived.</strong> The pauses were not thinking pauses. They were waiting pauses.</li>\n<li><strong>The answer quality changed suddenly.</strong> They started with vague or incorrect fragments, then switched into polished, structured answers.</li>\n</ol>\n<h2>What I learned</h2>\n<p>The signal is not &quot;they looked away once&quot;. People look away when thinking. The signal is the mismatch between three streams:</p>\n<ul>\n<li>what their face and eyes are doing</li>\n<li>what the shared screen is doing</li>\n<li>how the answer quality changes over time</li>\n</ul>\n<p>If the screen is static, the face lighting keeps shifting and the answer moves from gibberish to perfect in one jump, the interview is no longer measuring the candidate. It is measuring their ability to proxy an LLM through a hidden device.</p>\n<p>For live coding rounds, I now watch the timing chain: question asked, eyes move, filler starts, screen stays still, answer suddenly improves. That sequence is harder to fake than any single behavior.</p>"
+  },
+  {
     "slug": "agent-hooks",
     "title": "Agent hooks are lifecycle triggers for AI agents",
     "date": "2026-06-21",
