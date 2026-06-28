@@ -8,7 +8,8 @@ window.TIL = (function () {
     k8s:'☸', ci:'⚙️', 'github-actions':'⚙️', devops:'🛠', typescript:'🧩',
     javascript:'🟨', rust:'🦀', go:'🐹', wasm:'⚡', debug:'🪲', async:'⏱',
     linux:'🐧', git:'🌿', cli:'⌨', sql:'🗄', database:'🗄', api:'🔌',
-    security:'🔐', performance:'🚀', testing:'🧪', web:'🌐', networking:'🛰'
+    security:'🔐', performance:'🚀', testing:'🧪', web:'🌐', networking:'🛰',
+    psychology:'🧠', ethics:'⚖️'
   };
 
   /* escape text before it goes into an innerHTML string */

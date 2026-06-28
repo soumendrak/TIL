@@ -2,6 +2,18 @@
    Run "pnpm build" to regenerate, then commit this file with your post. */
 window.TILS = [
   {
+    "slug": "brainwashing-vs-influence",
+    "title": "Brainwashing removes agency, influence preserves it",
+    "date": "2026-06-28",
+    "read": 1,
+    "tags": [
+      "psychology",
+      "ethics"
+    ],
+    "preview": "Brainwashing makes you obedient and afraid to question. Influence gives you better tools while keeping your right to disagree, verify and leave.",
+    "content": "<table>\n<thead>\n<tr>\n<th>Test</th>\n<th>Healthy influence</th>\n<th>Brainwashing</th>\n</tr>\n</thead>\n<tbody><tr>\n<td>Questioning</td>\n<td>Doubts are allowed. Example: “Read Ambedkar and also read critics.”</td>\n<td>Doubts are punished. Example: “If you question this, your faith is weak.”</td>\n</tr>\n<tr>\n<td>Agency</td>\n<td>You choose what to accept. Example: “This teaching helps me set boundaries.”</td>\n<td>The group chooses for you. Example: “Obey the teacher before your own judgment.”</td>\n</tr>\n<tr>\n<td>Evidence</td>\n<td>Claims can be checked. Example: “Show the source, context and counterargument.”</td>\n<td>Claims are shielded. Example: “The guru said it, so it is true.”</td>\n</tr>\n<tr>\n<td>Relationships</td>\n<td>Old relationships are evaluated case by case. Example: “Keep family ties, but add boundaries.”</td>\n<td>Old relationships are treated as threats. Example: “Leave anyone who doubts the path.”</td>\n</tr>\n<tr>\n<td>Money and time</td>\n<td>Giving is voluntary and bounded. Example: “I can donate this much.”</td>\n<td>Giving proves loyalty. Example: “Sacrifice more or you are selfish.”</td>\n</tr>\n<tr>\n<td>Emotion</td>\n<td>You become calmer and more responsible. Example: “Delay anger, then act with evidence.”</td>\n<td>You become guilty and dependent. Example: “Feeling unsafe means your ego is resisting.”</td>\n</tr>\n<tr>\n<td>Exit right</td>\n<td>You can leave without fear. Example: “This is not for me anymore.”</td>\n<td>Leaving is framed as betrayal. Example: “If you leave, your life will collapse.”</td>\n</tr>\n<tr>\n<td>Net effect</td>\n<td>More clarity, dignity and freedom.</td>\n<td>More obedience, fear and isolation.</td>\n</tr>\n</tbody></table>"
+  },
+  {
     "slug": "smartphone-llm-interview-cheating",
     "title": "Smartphone LLM cheating in live coding interviews leaves visible signals",
     "date": "2026-06-23",
