@@ -2,6 +2,19 @@
    Run "pnpm build" to regenerate, then commit this file with your post. */
 window.TILS = [
   {
+    "slug": "installing-codex-windows",
+    "title": "Installing Codex CLI on Windows",
+    "date": "2026-07-02",
+    "read": 1,
+    "tags": [
+      "cli",
+      "windows",
+      "tools"
+    ],
+    "preview": "The best way to install OpenAI Codex on Windows is pnpm install -g @openai/codex. And the equivalent of claude --dangerously-skip-permissions is codex -a never.",
+    "content": "<p>The <code>claude</code> CLI has <code>--dangerously-skip-permissions</code> for auto-yes mode. Codex does the same with:</p>\n<pre><code class=\"language-bash\">codex -a never\n</code></pre>\n<p>Where <code>-a</code> is short for <code>--auto-approve</code> and <code>never</code> means never ask for permission to run any command.</p>\n<p>Best way to install it on Windows:</p>\n<pre><code class=\"language-bash\">pnpm install -g @openai/codex\n</code></pre>\n<p>Then you&#39;re good to go.</p>"
+  },
+  {
     "slug": "brainwashing-vs-influence",
     "title": "Brainwashing removes agency, influence preserves it",
     "date": "2026-06-28",
