@@ -6,6 +6,9 @@ tags: [philosophy, observability, mental-models]
 preview: "Kintsugi repairs broken pottery with visible gold seams — not to hide damage, but to make it the most beautiful part. Observability does the same: illuminate failures, don't bury them."
 ---
 
+![Kintsugi repaired pottery — gold seams illuminating the cracks](./assets/kintsugi-sample.jpg)
+*Kintsugi repair on a ceramic bowl. Photo by [Riho Kitagawa](https://unsplash.com/@kittiko?utm_source=til&utm_medium=referral) on [Unsplash](https://unsplash.com/photos/JuDPjcutors?utm_source=til&utm_medium=referral)*
+
 Kintsugi (金継ぎ, "golden joinery") is the Japanese art of repairing broken pottery with urushi lacquer dusted with powdered gold. The crack is not hidden — it is highlighted with gold. The repair is physically stronger than the original clay, and the unique crack pattern makes the object irreplaceable.
 
 The deeper insight: hiding a crack requires a permanent lie. Displaying it frees the object from pretending. A visibly repaired bowl gets used daily; a "perfect" one gets wrapped and shelved.
