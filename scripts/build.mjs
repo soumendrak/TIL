@@ -31,6 +31,9 @@ const MATTER_OPTS = {
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const POSTS_DIR = join(ROOT, 'posts');
 const OUT_FILE = join(ROOT, 'public', 'data.js');
+const FEED_FILE = join(ROOT, 'public', 'feed.atom');
+const SITE = 'https://til.soumendrak.com';
+const FEED_TITLE = 'Dev Journal — Today I Learned';
 
 const CHECK_ONLY = process.argv.includes('--check');
 
@@ -250,6 +253,53 @@ function parsePost(file, raw) {
   };
 }
 
+/** Escapes the five XML special characters for text/attribute content. */
+function xmlEscape(s) {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
+/** Serializes posts to a valid Atom 1.0 feed string. */
+function buildAtom(posts) {
+  const permalink = (slug) => `${SITE}/til.html?id=${encodeURIComponent(slug)}`;
+  // Post dates are date-only; Atom needs an xsd:dateTime. Midnight UTC is fine.
+  const stamp = (date) => `${date}T00:00:00Z`;
+  // posts arrive newest-first, so posts[0] is the freshest post.
+  const updated = posts.length ? stamp(posts[0].date) : '1970-01-01T00:00:00Z';
+
+  const entries = posts.map((p) => {
+    const url = permalink(p.slug);
+    const cats = p.tags
+      .map((t) => `    <category term="${xmlEscape(t)}"/>`)
+      .join('\n');
+    return `  <entry>
+    <title>${xmlEscape(p.title)}</title>
+    <link href="${xmlEscape(url)}"/>
+    <id>${xmlEscape(url)}</id>
+    <updated>${stamp(p.date)}</updated>
+    <published>${stamp(p.date)}</published>
+    <summary>${xmlEscape(p.preview)}</summary>
+${cats}
+  </entry>`;
+  });
+
+  return `<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>${xmlEscape(FEED_TITLE)}</title>
+  <link href="${SITE}/"/>
+  <link rel="self" type="application/atom+xml" href="${SITE}/feed.atom"/>
+  <id>${SITE}/</id>
+  <updated>${updated}</updated>
+  <author><name>Soumendra Kumar Sahoo</name></author>
+${entries.join('\n')}
+</feed>
+`;
+}
+
 /* Stamp a content hash onto the app.js / style.css / data.js references
    in every HTML page. The CDN ignores our cache-control headers, so the
    URL itself is the only reliable cache key — a changed asset gets a new
@@ -344,11 +394,12 @@ function main() {
 
   mkdirSync(dirname(OUT_FILE), { recursive: true });
   writeFileSync(OUT_FILE, banner + body);
+  writeFileSync(FEED_FILE, buildAtom(posts));
 
   const version = stampAssets();
 
   console.log(
-    c.green(`✓ wrote ${posts.length} post(s) → public/data.js`) +
+    c.green(`✓ wrote ${posts.length} post(s) → public/data.js, public/feed.atom`) +
       c.dim(` · assets stamped ?v=${version}`) +
       (warnCount ? c.yellow(` (${warnCount} warning(s))`) : ''),
   );
