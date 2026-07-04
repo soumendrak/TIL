@@ -7,7 +7,7 @@ preview: "Kintsugi repairs broken pottery with visible gold seams — not to hid
 ---
 
 ![Kintsugi repaired pottery — gold seams illuminating the cracks](./assets/kintsugi-sample.jpg)
-*Kintsugi repair on a ceramic bowl. Photo by [Riho Kitagawa](https://unsplash.com/@kittiko?utm_source=til&utm_medium=referral) on [Unsplash](https://unsplash.com/photos/JuDPjcutors?utm_source=til&utm_medium=referral)*
+*Kintsugi repair on a ceramic bowl. Photo by [Riho Kitagawa](https://unsplash.com/@riho_k?utm_source=til&utm_medium=referral) on [Unsplash](https://unsplash.com/photos/JuDPjcutors?utm_source=til&utm_medium=referral)*
 
 Kintsugi (金継ぎ, "golden joinery") is the Japanese art of repairing broken pottery with urushi lacquer dusted with powdered gold. The crack is not hidden — it is highlighted with gold. The repair is physically stronger than the original clay, and the unique crack pattern makes the object irreplaceable.
 
