@@ -361,7 +361,7 @@ function xmlEscape(s) {
 
 /** Serializes posts to a valid Atom 1.0 feed string. */
 function buildAtom(posts) {
-  const permalink = (slug) => `${SITE}/til.html?id=${encodeURIComponent(slug)}`;
+  const permalink = (slug) => `${SITE}/${encodeURIComponent(slug)}.html`;
   // Post dates are date-only; Atom needs an xsd:dateTime. Midnight UTC is fine.
   const stamp = (date) => `${date}T00:00:00Z`;
   // posts arrive newest-first, so posts[0] is the freshest post.

@@ -8,8 +8,8 @@
   <author><name>Soumendra Kumar Sahoo</name></author>
   <entry>
     <title>Kintsugi — the gold in the crack, and why it fits observability</title>
-    <link href="https://til.soumendrak.com/til.html?id=kintsugi-observability"/>
-    <id>https://til.soumendrak.com/til.html?id=kintsugi-observability</id>
+    <link href="https://til.soumendrak.com/kintsugi-observability.html"/>
+    <id>https://til.soumendrak.com/kintsugi-observability.html</id>
     <updated>2026-07-04T00:00:00Z</updated>
     <published>2026-07-04T00:00:00Z</published>
     <summary>Kintsugi repairs broken pottery with visible gold seams — not to hide damage, but to make it the most beautiful part. Observability does the same: illuminate failures, don&apos;t bury them.</summary>
@@ -19,8 +19,8 @@
   </entry>
   <entry>
     <title>Scroll to Text Fragment — link to specific words on any page</title>
-    <link href="https://til.soumendrak.com/til.html?id=scroll-to-text-fragment"/>
-    <id>https://til.soumendrak.com/til.html?id=scroll-to-text-fragment</id>
+    <link href="https://til.soumendrak.com/scroll-to-text-fragment.html"/>
+    <id>https://til.soumendrak.com/scroll-to-text-fragment.html</id>
     <updated>2026-07-04T00:00:00Z</updated>
     <published>2026-07-04T00:00:00Z</published>
     <summary>You can link directly to any specific word on a webpage — no anchor tags needed. Just add</summary>
@@ -30,8 +30,8 @@
   </entry>
   <entry>
     <title>Installing Codex CLI on Windows</title>
-    <link href="https://til.soumendrak.com/til.html?id=installing-codex-windows"/>
-    <id>https://til.soumendrak.com/til.html?id=installing-codex-windows</id>
+    <link href="https://til.soumendrak.com/installing-codex-windows.html"/>
+    <id>https://til.soumendrak.com/installing-codex-windows.html</id>
     <updated>2026-07-02T00:00:00Z</updated>
     <published>2026-07-02T00:00:00Z</published>
     <summary>The best way to install OpenAI Codex on Windows is pnpm install -g @openai/codex. And the equivalent of claude --dangerously-skip-permissions is codex -a never.</summary>
@@ -41,8 +41,8 @@
   </entry>
   <entry>
     <title>Brainwashing removes agency, influence preserves it</title>
-    <link href="https://til.soumendrak.com/til.html?id=brainwashing-vs-influence"/>
-    <id>https://til.soumendrak.com/til.html?id=brainwashing-vs-influence</id>
+    <link href="https://til.soumendrak.com/brainwashing-vs-influence.html"/>
+    <id>https://til.soumendrak.com/brainwashing-vs-influence.html</id>
     <updated>2026-06-28T00:00:00Z</updated>
     <published>2026-06-28T00:00:00Z</published>
     <summary>Brainwashing makes you obedient and afraid to question. Influence gives you better tools while keeping your right to disagree, verify and leave.</summary>
@@ -51,8 +51,8 @@
   </entry>
   <entry>
     <title>Smartphone LLM cheating in live coding interviews leaves visible signals</title>
-    <link href="https://til.soumendrak.com/til.html?id=smartphone-llm-interview-cheating"/>
-    <id>https://til.soumendrak.com/til.html?id=smartphone-llm-interview-cheating</id>
+    <link href="https://til.soumendrak.com/smartphone-llm-interview-cheating.html"/>
+    <id>https://til.soumendrak.com/smartphone-llm-interview-cheating.html</id>
     <updated>2026-06-23T00:00:00Z</updated>
     <published>2026-06-23T00:00:00Z</published>
     <summary>Signals Background blur was enabled. They looked at more than two places: keyboard, screen and another point. The shared screen did not change, but face brightness changed when their shoulder moved. They repeated or simplified the question multiple times. They used filler words…</summary>
@@ -62,8 +62,8 @@
   </entry>
   <entry>
     <title>Agent hooks are lifecycle triggers for AI agents</title>
-    <link href="https://til.soumendrak.com/til.html?id=agent-hooks"/>
-    <id>https://til.soumendrak.com/til.html?id=agent-hooks</id>
+    <link href="https://til.soumendrak.com/agent-hooks.html"/>
+    <id>https://til.soumendrak.com/agent-hooks.html</id>
     <updated>2026-06-21T00:00:00Z</updated>
     <published>2026-06-21T00:00:00Z</published>
     <summary>Agent hooks run custom logic when lifecycle events happen inside an AI agent. They are broader than decorators or context managers because they can react across the whole agent run.</summary>
@@ -72,8 +72,8 @@
   </entry>
   <entry>
     <title>navigator.sendBeacon() — reliable data send on page unload</title>
-    <link href="https://til.soumendrak.com/til.html?id=navigator-sendbeacon"/>
-    <id>https://til.soumendrak.com/til.html?id=navigator-sendbeacon</id>
+    <link href="https://til.soumendrak.com/navigator-sendbeacon.html"/>
+    <id>https://til.soumendrak.com/navigator-sendbeacon.html</id>
     <updated>2026-06-13T00:00:00Z</updated>
     <published>2026-06-13T00:00:00Z</published>
     <summary>Before sendBeacon, sending telemetry on page close was unreliable — async fetch got cancelled, sync XHR blocked UX. sendBeacon guarantees the request goes through even on tab close. Essential for any web-based observability pipeline.</summary>
@@ -83,8 +83,8 @@
   </entry>
   <entry>
     <title>Git worktrees for agentic AI coding</title>
-    <link href="https://til.soumendrak.com/til.html?id=git-worktrees-agentic-coding"/>
-    <id>https://til.soumendrak.com/til.html?id=git-worktrees-agentic-coding</id>
+    <link href="https://til.soumendrak.com/git-worktrees-agentic-coding.html"/>
+    <id>https://til.soumendrak.com/git-worktrees-agentic-coding.html</id>
     <updated>2026-06-06T00:00:00Z</updated>
     <published>2026-06-06T00:00:00Z</published>
     <summary>Git worktrees let you check out multiple branches at once in separate directories. Unlike switching branches in a single working tree, worktrees give each branch its own state — no stashing, no conflicts, no context loss. Essential for parallel agentic coding workflows.</summary>
@@ -94,8 +94,8 @@
   </entry>
   <entry>
     <title>AI agents can delete their own logs and traces</title>
-    <link href="https://til.soumendrak.com/til.html?id=agents-delete-own-telemetry"/>
-    <id>https://til.soumendrak.com/til.html?id=agents-delete-own-telemetry</id>
+    <link href="https://til.soumendrak.com/agents-delete-own-telemetry.html"/>
+    <id>https://til.soumendrak.com/agents-delete-own-telemetry.html</id>
     <updated>2026-05-31T00:00:00Z</updated>
     <published>2026-05-31T00:00:00Z</published>
     <summary>Autonomous agents with shell or filesystem access can wipe their own telemetry before you detect the bad behavior. Real-time observability plus sandboxing is a hard requirement, not a nice-to-have.</summary>
@@ -105,8 +105,8 @@
   </entry>
   <entry>
     <title>Agent hallucination vs traditional LLM hallucination</title>
-    <link href="https://til.soumendrak.com/til.html?id=agent-hallucination-vs-llm"/>
-    <id>https://til.soumendrak.com/til.html?id=agent-hallucination-vs-llm</id>
+    <link href="https://til.soumendrak.com/agent-hallucination-vs-llm.html"/>
+    <id>https://til.soumendrak.com/agent-hallucination-vs-llm.html</id>
     <updated>2026-05-20T00:00:00Z</updated>
     <published>2026-05-20T00:00:00Z</published>
     <summary>Agent confidently says it used a tool and the answer is backed by that tool call, but never actually called the tool. It hallucinated the tool call itself. Traditional LLM hallucination is making up facts. Agent hallucination is making up actions.</summary>
