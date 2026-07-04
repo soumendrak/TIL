@@ -19,3 +19,6 @@
   Cache-Control: no-cache
 /data.js
   Cache-Control: no-cache
+/feed.atom
+  Cache-Control: no-cache
+  Content-Type: application/atom+xml; charset=utf-8

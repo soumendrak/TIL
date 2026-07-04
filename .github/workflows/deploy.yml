@@ -24,7 +24,7 @@ jobs:
         run: pnpm build
       - name: Verify generated files are committed and up to date
         run: |
-          if ! git diff --exit-code -- public/data.js public/index.html public/til.html public/topic.html; then
+          if ! git diff --exit-code -- public/data.js public/feed.atom public/index.html public/til.html public/topic.html; then
             echo "::error::Generated files are stale. Run 'pnpm build' and commit public/data.js plus the stamped HTML."
             exit 1
           fi
