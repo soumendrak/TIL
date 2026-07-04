@@ -2,6 +2,19 @@
    Run "pnpm build" to regenerate, then commit this file with your post. */
 window.TILS = [
   {
+    "slug": "scroll-to-text-fragment",
+    "title": "Scroll to Text Fragment — link to specific words on any page",
+    "date": "2026-07-04",
+    "read": 2,
+    "tags": [
+      "web",
+      "html",
+      "browsers"
+    ],
+    "preview": "Append",
+    "content": "<h2>The trick</h2>\n<p>Append <code>#:~:text=YOUR_TEXT</code> to any URL and Chromium-based browsers (Chrome, Edge, Brave, Opera) will scroll to and highlight the matching text on the page.</p>\n<p>For example, this link jumps straight to &quot;AI Observability&quot; on my About page:\n<a href=\"https://soumendrak.com/about/#:~:text=AI%20Observability\"><code>soumendrak.com/about/#:~:text=AI%20Observability</code></a></p>\n<h2>Why it matters</h2>\n<p>Most pages don&#39;t have HTML anchors on every paragraph. Text fragments let you point someone to your exact evidence or quote without the page author adding anything — the browser does the work.</p>\n<h2>Context matching</h2>\n<p>If the phrase appears multiple times, narrow it with prefix/suffix syntax:</p>\n<pre><code>#:~:text=prefix-,target,-suffix\n</code></pre>\n<p>Example:\n<code>#:~:text=making%20AI%20systems-,observable</code></p>\n<p>This finds &quot;observable&quot; only when preceded by &quot;making AI systems&quot;.</p>\n<h2>Browser support</h2>\n<ul>\n<li>Chromium (Chrome 80+, Edge 80+, Brave, Opera) — full support with automatic yellow highlight</li>\n<li>Safari / Firefox — silently fall back to loading the page top (the link still works)</li>\n<li>The highlight is temporary (the browser fades it after a few seconds)</li>\n</ul>\n<h2>Source</h2>\n<p>Learned from <a href=\"https://mvark.blogspot.com/2026/07/how-to-link-directly-to-specific-word.html\">mvark.blogspot.com (TIL repo)</a>.</p>"
+  },
+  {
     "slug": "installing-codex-windows",
     "title": "Installing Codex CLI on Windows",
     "date": "2026-07-02",
