@@ -10,8 +10,17 @@
 <link rel="apple-touch-icon" href="/icon-180.png" />
 <meta name="theme-color" content="#ff7a45" />
 <link rel="canonical" href="https://til.soumendrak.com/" />
-<meta property="og:title" content="Dev Journal — TIL" />
 <meta property="og:type" content="website" />
+<meta property="og:title" content="Dev Journal — TIL" />
+<meta property="og:description" content="A searchable journal of things learned — AI observability, infra, tools." />
+<meta property="og:image" content="https://til.soumendrak.com/icon-180.png" />
+<meta property="og:url" content="https://til.soumendrak.com/" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Dev Journal — TIL" />
+<meta name="twitter:description" content="A searchable journal of things learned — AI observability, infra, tools." />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Dev Journal — TIL","url":"https://til.soumendrak.com/","description":"A searchable journal of things learned — AI observability, infra, tools.","author":{"@type":"Person","name":"Soumendra Kumar Sahoo"}}
+</script>
 <link rel="alternate" type="application/atom+xml" title="TIL feed" href="/feed.atom" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -205,7 +214,7 @@
       feedEl.className='list';
       feedEl.innerHTML=items.map(function(t){
         var c=TIL.color((t.tags&&t.tags[0])||'note');
-        return '<a class="item" data-reveal style="--c:'+c+'" href="./til.html?id='+encodeURIComponent(t.slug)+'">'+
+        return '<a class="item" data-reveal style="--c:'+c+'" href="./'+encodeURIComponent(t.slug)+'.html">'+
           '<span class="t-icon">'+TIL.emoji(t.tags)+'</span>'+
           '<span class="entry-body">'+
             '<span class="entry-meta">'+metaHtml(t)+'</span>'+
@@ -220,7 +229,7 @@
       feedEl.className='grid';
       feedEl.innerHTML=items.map(function(t){
         var c=TIL.color((t.tags&&t.tags[0])||'note');
-        return '<a class="card" data-reveal style="--c:'+c+'" href="./til.html?id='+encodeURIComponent(t.slug)+'">'+
+        return '<a class="card" data-reveal style="--c:'+c+'" href="./'+encodeURIComponent(t.slug)+'.html">'+
           '<span class="t-icon">'+TIL.emoji(t.tags)+'</span>'+
           '<span class="entry-meta">'+metaHtml(t)+'</span>'+
           '<span class="entry-title">'+TIL.esc(t.title||t.slug||'Untitled')+'</span>'+
@@ -246,7 +255,7 @@
   function goRandom(){
     if(!TILS.length)return;
     var t=TILS[Math.floor(Math.random()*TILS.length)];
-    location.href='./til.html?id='+encodeURIComponent(t.slug);
+    location.href='./'+encodeURIComponent(t.slug)+'.html';
   }
   document.getElementById('randomBtn').onclick=goRandom;
   function setView(v){

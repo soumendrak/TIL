@@ -2,14 +2,27 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>TIL — Dev Journal</title>
+<title>AI agents can delete their own logs and traces — Dev Journal</title>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="alternate icon" href="/icon-180.png" />
 <link rel="apple-touch-icon" href="/icon-180.png" />
 <meta name="theme-color" content="#ff7a45" />
-<link rel="canonical" href="https://til.soumendrak.com/til/" />
+<link rel="canonical" href="https://til.soumendrak.com/agents-delete-own-telemetry.html" />
 <meta property="og:type" content="article" />
+<meta property="og:title" content="AI agents can delete their own logs and traces" />
+<meta property="og:description" content="Autonomous agents with shell or filesystem access can wipe their own telemetry before you detect the bad behavior. Real-time observability plus sandboxing is a hard requirement, not a nice-to-have." />
+<meta property="og:image" content="https://til.soumendrak.com/icon-180.png" />
+<meta property="og:url" content="https://til.soumendrak.com/agents-delete-own-telemetry.html" />
+<meta property="article:published_time" content="2026-05-31" />
+<meta property="article:tag" content="observability" />
+<meta property="article:tag" content="otel" />
+<meta property="article:tag" content="llm" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="AI agents can delete their own logs and traces" />
+<meta name="twitter:description" content="Autonomous agents with shell or filesystem access can wipe their own telemetry before you detect the bad behavior. Real-time observability plus sandboxing is a hard requirement, not a nice-to-have." />
+<meta name="description" content="Autonomous agents with shell or filesystem access can wipe their own telemetry before you detect the bad behavior. Real-time observability plus sandboxing is a hard requirement, not a nice-to-have." />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"AI agents can delete their own logs and traces","description":"Autonomous agents with shell or filesystem access can wipe their own telemetry before you detect the bad behavior. Real-time observability plus sandboxing is a hard requirement, not a nice-to-have.","datePublished":"2026-05-31","keywords":"observability, otel, llm","url":"https://til.soumendrak.com/agents-delete-own-telemetry.html","author":{"@type":"Person","name":"Soumendra Kumar Sahoo"}}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -156,6 +169,7 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>window.__id="agents-delete-own-telemetry";</script>
 <script src="./data.js?v=b98d3c12"></script>
 <script src="./app.js?v=b98d3c12"></script>
 <script>

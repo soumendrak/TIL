@@ -2,14 +2,27 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>TIL — Dev Journal</title>
+<title>navigator.sendBeacon() — reliable data send on page unload — Dev Journal</title>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="alternate icon" href="/icon-180.png" />
 <link rel="apple-touch-icon" href="/icon-180.png" />
 <meta name="theme-color" content="#ff7a45" />
-<link rel="canonical" href="https://til.soumendrak.com/til/" />
+<link rel="canonical" href="https://til.soumendrak.com/navigator-sendbeacon.html" />
 <meta property="og:type" content="article" />
+<meta property="og:title" content="navigator.sendBeacon() — reliable data send on page unload" />
+<meta property="og:description" content="Before sendBeacon, sending telemetry on page close was unreliable — async fetch got cancelled, sync XHR blocked UX. sendBeacon guarantees the request goes through even on tab close. Essential for any web-based observability pipeline." />
+<meta property="og:image" content="https://til.soumendrak.com/icon-180.png" />
+<meta property="og:url" content="https://til.soumendrak.com/navigator-sendbeacon.html" />
+<meta property="article:published_time" content="2026-06-13" />
+<meta property="article:tag" content="web" />
+<meta property="article:tag" content="observability" />
+<meta property="article:tag" content="telemetry" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="navigator.sendBeacon() — reliable data send on page unload" />
+<meta name="twitter:description" content="Before sendBeacon, sending telemetry on page close was unreliable — async fetch got cancelled, sync XHR blocked UX. sendBeacon guarantees the request goes through even on tab close. Essential for any web-based observability pipeline." />
+<meta name="description" content="Before sendBeacon, sending telemetry on page close was unreliable — async fetch got cancelled, sync XHR blocked UX. sendBeacon guarantees the request goes through even on tab close. Essential for any web-based observability pipeline." />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"navigator.sendBeacon() — reliable data send on page unload","description":"Before sendBeacon, sending telemetry on page close was unreliable — async fetch got cancelled, sync XHR blocked UX. sendBeacon guarantees the request goes through even on tab close. Essential for any web-based observability pipeline.","datePublished":"2026-06-13","keywords":"web, observability, telemetry","url":"https://til.soumendrak.com/navigator-sendbeacon.html","author":{"@type":"Person","name":"Soumendra Kumar Sahoo"}}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -156,6 +169,7 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>window.__id="navigator-sendbeacon";</script>
 <script src="./data.js?v=b98d3c12"></script>
 <script src="./app.js?v=b98d3c12"></script>
 <script>

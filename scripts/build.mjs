@@ -13,7 +13,13 @@
    A validation error fails the build with a non-zero exit code
    so a malformed post can never reach production.
    ============================================================ */
-import { readdirSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import {
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+  mkdirSync,
+  rmSync,
+} from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join, dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -34,6 +40,12 @@ const OUT_FILE = join(ROOT, 'public', 'data.js');
 const FEED_FILE = join(ROOT, 'public', 'feed.atom');
 const SITE = 'https://til.soumendrak.com';
 const FEED_TITLE = 'Dev Journal — Today I Learned';
+
+const OG_IMAGE = `${SITE}/icon-180.png`; // ponytail: reuse the app icon; swap for a 1200×630 og-image.png when one exists
+const AUTHOR = 'Soumendra Kumar Sahoo';
+/* Root-level pages that share the public/ dir with per-post files — never
+   treat these as stale post pages to delete. */
+const RESERVED_HTML = new Set(['index.html', 'til.html', 'topic.html']);
 
 const CHECK_ONLY = process.argv.includes('--check');
 
@@ -253,6 +265,90 @@ function parsePost(file, raw) {
   };
 }
 
+/** Escapes a string for safe use inside an HTML attribute value. */
+function escAttr(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+/** Builds the per-post <head> meta block: Open Graph, Twitter, JSON-LD. */
+function metaTags(post) {
+  const url = `${SITE}/${post.slug}.html`;
+  const title = escAttr(post.title);
+  const desc = escAttr(post.preview);
+  const tagMeta = post.tags
+    .map((t) => `<meta property="article:tag" content="${escAttr(t)}" />`)
+    .join('\n');
+  /* Escape "<" so post content can never break out of the script element. */
+  const jsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: post.title,
+    description: post.preview,
+    datePublished: post.date,
+    keywords: post.tags.join(', '),
+    url,
+    author: { '@type': 'Person', name: AUTHOR },
+  }).replace(/</g, '\\u003c');
+  return [
+    '<meta property="og:type" content="article" />',
+    `<meta property="og:title" content="${title}" />`,
+    `<meta property="og:description" content="${desc}" />`,
+    `<meta property="og:image" content="${OG_IMAGE}" />`,
+    `<meta property="og:url" content="${url}" />`,
+    `<meta property="article:published_time" content="${post.date}" />`,
+    tagMeta,
+    '<meta name="twitter:card" content="summary" />',
+    `<meta name="twitter:title" content="${title}" />`,
+    `<meta name="twitter:description" content="${desc}" />`,
+    `<meta name="description" content="${desc}" />`,
+    `<script type="application/ld+json">${jsonLd}</script>`,
+  ].join('\n');
+}
+
+/* Render one static HTML file per post so JS-blind social scrapers
+   (Twitter/X, LinkedIn, WhatsApp, Slack) and search crawlers see per-post
+   title/description/image instead of the shared client-rendered shell.
+   Files live at the site root (public/<slug>.html) so the template's
+   "./style.css" etc. resolve without rewriting. Each bakes window.__id so
+   til.html's script renders the right post without a ?id query. */
+function generatePostPages(posts) {
+  const pub = join(ROOT, 'public');
+  const template = readFileSync(join(pub, 'til.html'), 'utf8');
+  const slugs = new Set(posts.map((p) => p.slug));
+
+  /* drop stale per-post pages for deleted/renamed posts */
+  for (const f of readdirSync(pub)) {
+    if (f.endsWith('.html') && !RESERVED_HTML.has(f) && !slugs.has(basename(f, '.html'))) {
+      rmSync(join(pub, f));
+    }
+  }
+
+  for (const post of posts) {
+    let html = template
+      .replace(
+        '<title>TIL — Dev Journal</title>',
+        `<title>${escAttr(post.title)} — Dev Journal</title>`,
+      )
+      .replace(
+        '<link rel="canonical" href="https://til.soumendrak.com/til/" />',
+        `<link rel="canonical" href="${SITE}/${post.slug}.html" />`,
+      )
+      .replace('<meta property="og:type" content="article" />', metaTags(post))
+      .replace(
+        '<script src="./data.js',
+        `<script>window.__id=${JSON.stringify(post.slug)};</script>\n<script src="./data.js`,
+      );
+    if (!html.includes(`content="${escAttr(post.title)}" />`)) {
+      throw new Error(`OG tags not injected for "${post.slug}" — template markers changed?`);
+    }
+    writeFileSync(join(pub, `${post.slug}.html`), html);
+  }
+}
+
 /** Escapes the five XML special characters for text/attribute content. */
 function xmlEscape(s) {
   return s
@@ -265,7 +361,7 @@ function xmlEscape(s) {
 
 /** Serializes posts to a valid Atom 1.0 feed string. */
 function buildAtom(posts) {
-  const permalink = (slug) => `${SITE}/til.html?id=${encodeURIComponent(slug)}`;
+  const permalink = (slug) => `${SITE}/${encodeURIComponent(slug)}.html`;
   // Post dates are date-only; Atom needs an xsd:dateTime. Midnight UTC is fine.
   const stamp = (date) => `${date}T00:00:00Z`;
   // posts arrive newest-first, so posts[0] is the freshest post.
@@ -397,6 +493,7 @@ function main() {
   writeFileSync(FEED_FILE, buildAtom(posts));
 
   const version = stampAssets();
+  generatePostPages(posts);
 
   console.log(
     c.green(`✓ wrote ${posts.length} post(s) → public/data.js, public/feed.atom`) +

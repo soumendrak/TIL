@@ -130,7 +130,7 @@
     listEl.innerHTML=entries.map(function(t){
       var tc=TIL.color((t.tags&&t.tags[0])||'note');
       var primary=(t.tags&&t.tags[0])||'note';
-      return '<a class="item" data-reveal style="--c:'+tc+'" href="./til.html?id='+encodeURIComponent(t.slug)+'">'+
+      return '<a class="item" data-reveal style="--c:'+tc+'" href="./'+encodeURIComponent(t.slug)+'.html">'+
         '<span class="t-icon">'+TIL.emoji(t.tags)+'</span>'+
         '<span class="entry-body">'+
           '<span class="entry-meta">'+TIL.esc(t.date||'')+' &nbsp;·&nbsp; '+TIL.esc(t.read||'1')+
@@ -166,7 +166,7 @@
   function goRandom(){
     if(!TILS.length)return;
     var r=TILS[Math.floor(Math.random()*TILS.length)];
-    location.href='./til.html?id='+encodeURIComponent(r.slug);
+    location.href='./'+encodeURIComponent(r.slug)+'.html';
   }
   TIL.initShortcuts([
     {keys:['j'],hint:['j'],desc:'Highlight next entry',run:nav.next},
