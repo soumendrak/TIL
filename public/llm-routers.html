@@ -2,27 +2,27 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>Git worktrees for agentic AI coding — Dev Journal</title>
+<title>LLM routers: generic prompt-based routing usually isn't worth it — Dev Journal</title>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="alternate icon" href="/icon-180.png" />
 <link rel="apple-touch-icon" href="/icon-180.png" />
 <meta name="theme-color" content="#ff7a45" />
-<link rel="canonical" href="https://til.soumendrak.com/git-worktrees-agentic-coding.html" />
+<link rel="canonical" href="https://til.soumendrak.com/llm-routers.html" />
 <meta property="og:type" content="article" />
-<meta property="og:title" content="Git worktrees for agentic AI coding" />
-<meta property="og:description" content="Git worktrees let you check out multiple branches at once in separate directories. Unlike switching branches in a single working tree, worktrees give each branch its own state — no stashing, no conflicts, no context loss. Essential for parallel agentic coding workflows." />
+<meta property="og:title" content="LLM routers: generic prompt-based routing usually isn't worth it" />
+<meta property="og:description" content="Generic routers that pick a model from the initial prompt usually fail: prompt complexity is a weak signal, and switching models mid-workflow breaks consistency. Evaluate on real workloads, pin models to roles, treat routing as a versioned product decision." />
 <meta property="og:image" content="https://til.soumendrak.com/icon-180.png" />
-<meta property="og:url" content="https://til.soumendrak.com/git-worktrees-agentic-coding.html" />
-<meta property="article:published_time" content="2026-06-06" />
-<meta property="article:tag" content="git" />
-<meta property="article:tag" content="agents" />
-<meta property="article:tag" content="workflow" />
+<meta property="og:url" content="https://til.soumendrak.com/llm-routers.html" />
+<meta property="article:published_time" content="2026-08-01" />
+<meta property="article:tag" content="llm" />
+<meta property="article:tag" content="observability" />
+<meta property="article:tag" content="routing" />
 <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Git worktrees for agentic AI coding" />
-<meta name="twitter:description" content="Git worktrees let you check out multiple branches at once in separate directories. Unlike switching branches in a single working tree, worktrees give each branch its own state — no stashing, no conflicts, no context loss. Essential for parallel agentic coding workflows." />
-<meta name="description" content="Git worktrees let you check out multiple branches at once in separate directories. Unlike switching branches in a single working tree, worktrees give each branch its own state — no stashing, no conflicts, no context loss. Essential for parallel agentic coding workflows." />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Git worktrees for agentic AI coding","description":"Git worktrees let you check out multiple branches at once in separate directories. Unlike switching branches in a single working tree, worktrees give each branch its own state — no stashing, no conflicts, no context loss. Essential for parallel agentic coding workflows.","datePublished":"2026-06-06","keywords":"git, agents, workflow","url":"https://til.soumendrak.com/git-worktrees-agentic-coding.html","author":{"@type":"Person","name":"Soumendra Kumar Sahoo"}}</script>
+<meta name="twitter:title" content="LLM routers: generic prompt-based routing usually isn't worth it" />
+<meta name="twitter:description" content="Generic routers that pick a model from the initial prompt usually fail: prompt complexity is a weak signal, and switching models mid-workflow breaks consistency. Evaluate on real workloads, pin models to roles, treat routing as a versioned product decision." />
+<meta name="description" content="Generic routers that pick a model from the initial prompt usually fail: prompt complexity is a weak signal, and switching models mid-workflow breaks consistency. Evaluate on real workloads, pin models to roles, treat routing as a versioned product decision." />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"LLM routers: generic prompt-based routing usually isn't worth it","description":"Generic routers that pick a model from the initial prompt usually fail: prompt complexity is a weak signal, and switching models mid-workflow breaks consistency. Evaluate on real workloads, pin models to roles, treat routing as a versioned product decision.","datePublished":"2026-08-01","keywords":"llm, observability, routing","url":"https://til.soumendrak.com/llm-routers.html","author":{"@type":"Person","name":"Soumendra Kumar Sahoo"}}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -169,7 +169,7 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script>window.__id="git-worktrees-agentic-coding";</script>
+<script>window.__id="llm-routers";</script>
 <script src="./data.js?v=ffffb11d"></script>
 <script src="./app.js?v=ffffb11d"></script>
 <script>

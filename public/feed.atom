@@ -4,8 +4,19 @@
   <link href="https://til.soumendrak.com/"/>
   <link rel="self" type="application/atom+xml" href="https://til.soumendrak.com/feed.atom"/>
   <id>https://til.soumendrak.com/</id>
-  <updated>2026-07-04T00:00:00Z</updated>
+  <updated>2026-08-01T00:00:00Z</updated>
   <author><name>Soumendra Kumar Sahoo</name></author>
+  <entry>
+    <title>LLM routers: generic prompt-based routing usually isn&apos;t worth it</title>
+    <link href="https://til.soumendrak.com/llm-routers.html"/>
+    <id>https://til.soumendrak.com/llm-routers.html</id>
+    <updated>2026-08-01T00:00:00Z</updated>
+    <published>2026-08-01T00:00:00Z</published>
+    <summary>Generic routers that pick a model from the initial prompt usually fail: prompt complexity is a weak signal, and switching models mid-workflow breaks consistency. Evaluate on real workloads, pin models to roles, treat routing as a versioned product decision.</summary>
+    <category term="llm"/>
+    <category term="observability"/>
+    <category term="routing"/>
+  </entry>
   <entry>
     <title>Kintsugi — the gold in the crack, and why it fits observability</title>
     <link href="https://til.soumendrak.com/kintsugi-observability.html"/>

@@ -2,6 +2,19 @@
    Run "pnpm build" to regenerate, then commit this file with your post. */
 window.TILS = [
   {
+    "slug": "llm-routers",
+    "title": "LLM routers: generic prompt-based routing usually isn't worth it",
+    "date": "2026-08-01",
+    "read": 3,
+    "tags": [
+      "llm",
+      "observability",
+      "routing"
+    ],
+    "preview": "Generic routers that pick a model from the initial prompt usually fail: prompt complexity is a weak signal, and switching models mid-workflow breaks consistency. Evaluate on real workloads, pin models to roles, treat routing as a versioned product decision.",
+    "content": "<p>Generic LLM routers that choose a model from the initial prompt are usually not worth the complexity.</p>\n<h2>Why they fail</h2>\n<ul>\n<li><strong>Prompt complexity is a poor signal</strong> — the real difficulty often appears only after tools, retrieved context, or codebase exploration.</li>\n<li><strong>A router needs substantial context</strong> — and potentially a capable model — to decide well, which erodes the expected cost savings.</li>\n<li><strong>Switching models mid-workflow harms consistency</strong>: output style, reasoning approach, tool behavior, and prompt/cache reuse all suffer.</li>\n<li><strong>Provider and model behavior change over time</strong> — routing rules and benchmarks become stale.</li>\n</ul>\n<h2>What works better</h2>\n<ul>\n<li><strong>Evaluate on real recurring workloads.</strong> Run a sampled &quot;bake-off&quot; across candidate models and pick based on quality, latency, and cost.</li>\n<li><strong>Keep a small, clearly differentiated model pool</strong> — for example, one strong frontier model plus one fast/cheap model.</li>\n<li><strong>Pin models to known workflow stages or agent roles</strong> — planner/orchestrator, exploration, extraction, execution — instead of dynamically routing every prompt.</li>\n<li><strong>Build model choice into the application design</strong> when tasks are predictable. That is closer to orchestration than routing.</li>\n<li><strong>Keep routing only for practical needs</strong> like provider retry/failover — and account for feature incompatibilities across providers.</li>\n<li><strong>At high request volumes</strong>, task-specific routing can still pay off. Universal routers generally do not.</li>\n</ul>\n<p>The most useful framing for AI-observability work: treat routing as an evaluable, versioned product decision. Capture task type, selected model, quality/eval result, latency, cost, fallback reason, and model version — then improve routing only where the data shows stable gains.</p>"
+  },
+  {
     "slug": "kintsugi-observability",
     "title": "Kintsugi — the gold in the crack, and why it fits observability",
     "date": "2026-07-04",
