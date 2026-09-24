@@ -2,6 +2,19 @@
    Run "pnpm build" to regenerate, then commit this file with your post. */
 window.TILS = [
   {
+    "slug": "corporate-survival-two-of-three",
+    "title": "Corporate survival: two of three — luck, a sponsor, or next-level work",
+    "date": "2026-09-24",
+    "read": 3,
+    "tags": [
+      "career",
+      "corporate",
+      "sponsorship"
+    ],
+    "preview": "Corporate careers are not decided by output alone. You survive with at least two of three: luck, sponsors who vouch for you, or working at the level above yours. Here is why pairs matter, and which one is in your control.",
+    "content": "<p>Corporate survival is a two-of-three game. You need at least two of these three skills to keep moving: luck, a sponsor, or working at the level above you.</p>\n<h2>The three skills</h2>\n<ol>\n<li><strong>Luck / fate.</strong> The right reorg, a manager leaving at the right moment, a project that becomes strategic after you chose it. You cannot schedule it, but you can stay in the game long enough to catch it. Most people check out one project before the lucky window opens.</li>\n<li><strong>Sponsors.</strong> Someone with a seat at the table who says your name when you are not in the room. Not a mentor — mentors give advice, sponsors spend their capital. They recommend you for the next level, keep you out of bad reorgs, and hand you the visible assignment.</li>\n<li><strong>Working like you are at the next level.</strong> Delivering at the level above the one you are paid for. This is the only one fully in your control.</li>\n</ol>\n<h2>Why one alone is not enough</h2>\n<table>\n<thead>\n<tr>\n<th>You have only</th>\n<th>What happens</th>\n</tr>\n</thead>\n<tbody><tr>\n<td>Luck alone</td>\n<td>Opportunities you cannot convert. The seat opens, but you are not ready and everyone sees it.</td>\n</tr>\n<tr>\n<td>A sponsor alone</td>\n<td>Promotion into a role you cannot survive. The sponsor looks bad, and that capital is not spent on you again.</td>\n</tr>\n<tr>\n<td>Next-level work alone</td>\n<td>The &quot;too good to lose, too easy to keep&quot; trap. The company takes next-level output at current-level pay. Recognition may come, conversion does not.</td>\n</tr>\n</tbody></table>\n<h2>The pairs are not equal</h2>\n<ul>\n<li><strong>Luck + sponsor</strong> — the fastest ladder, and the most fragile. You arrive at a level you did not build. It works until the next reorg does not smile on you.</li>\n<li><strong>Luck + next-level work</strong> — you keep growing, but conversion is slow. Without a sponsor, your work has to be noticed by accident.</li>\n<li><strong>Sponsor + next-level work</strong> — the reliable grind, and the most sustainable pair. You earn the advocacy and you can survive the seat.</li>\n</ul>\n<h2>The uncomfortable corollary</h2>\n<p>The most common single-skill position is next-level work alone. That is exactly the person who burns out wondering why they are overlooked. The fix is not more output — it is making the work visible to someone who can vouch for you.</p>\n<h2>What this changes day to day</h2>\n<p>Audit which two you have today. If your answer is &quot;work plus nothing else,&quot; the next move is not more hours. It is one conversation with someone who can vouch, or deliberately taking the assignment luck is hiding in.</p>"
+  },
+  {
     "slug": "llm-routers",
     "title": "LLM routers: generic prompt-based routing usually isn't worth it",
     "date": "2026-08-01",
