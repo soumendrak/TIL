@@ -2,6 +2,17 @@
    Run "pnpm build" to regenerate, then commit this file with your post. */
 window.TILS = [
   {
+    "slug": "harness-loop-graph-engineering",
+    "title": "Harness, loop and graph engineering",
+    "date": "2026-10-08",
+    "read": 1,
+    "tags": [
+      "llm"
+    ],
+    "preview": "Reliable agent work has three design layers: the environment around the model, the feedback cycle it repeats and the graph that makes workflow paths explicit.",
+    "content": "<p>Reliable agent work has three distinct engineering layers:</p>\n<ul>\n<li><strong>Harness engineering</strong> builds the machinery around the model: tools, context, state, permissions and verification.</li>\n<li><strong>Loop engineering</strong> designs the repeated work-and-feedback cycle: what the agent does, how results are checked and what happens next.</li>\n<li><strong>Graph engineering</strong> makes the workflow topology explicit: nodes, branches, joins, state transitions and controlled cycles.</li>\n</ul>\n<p>A useful mental model is <strong>environment → feedback → flow</strong>. The harness shapes the environment. The loop turns feedback into another attempt. The graph shows how work moves, including where it branches, rejoins or stops.</p>\n<p>For example, a coding agent&#39;s graph might send a passing test to review, but route a failing test back through diagnosis and repair. The harness supplies the repository and test tools; the loop governs each repair-and-check iteration; the graph makes both paths visible.</p>"
+  },
+  {
     "slug": "corporate-survival-two-of-three",
     "title": "Corporate survival: two of three — luck, a sponsor, or next-level work",
     "date": "2026-09-24",
