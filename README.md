@@ -190,6 +190,10 @@ sequenceDiagram
 | Hosting          | Cloudflare Pages |
 | CI / CD          | GitHub Actions |
 
+## Sponsor
+
+If this project helps you, consider [sponsoring my work on GitHub](https://github.com/sponsors/soumendrak). Your support helps fund maintenance, documentation, and continued development.
+
 ## 👤 Author
 
 Built and written by **[Soumendra Kumar Sahoo](https://www.soumendrak.com)**.
